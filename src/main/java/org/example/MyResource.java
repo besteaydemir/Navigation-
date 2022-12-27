@@ -8,7 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 /**
  * Root resource (exposed at "myresource" path)
  */
-@Path("myresource")
+@Path("/sysdev/orsdirections") //Resources are  defined by a path variable --check the difference
 public class MyResource {
 
     /**
@@ -19,7 +19,8 @@ public class MyResource {
      */
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String getIt() {
-        return "Got it!";
+    public String getIt(String start) {
+        System.out.println(start);
+        return "start";
     }
 }
