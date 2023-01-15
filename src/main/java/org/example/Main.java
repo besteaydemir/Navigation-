@@ -6,6 +6,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Path;
 
 /**
  * Main class.
@@ -13,7 +14,7 @@ import java.net.URI;
  */
 public class Main {
     // Base URI the Grizzly HTTP server will listen on
-    public static final String BASE_URI = "http://localhost:9090/sysdev";
+    public static final String BASE_URI = "http://localhost:9090";
 
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
@@ -39,7 +40,14 @@ public class Main {
         System.out.println(String.format("Jersey app started with endpoints available at "
                 + "%s%nHit Ctrl-C to stop it...", BASE_URI));
         System.in.read();
-        server.stop();
+
+        //new PathReturnResource();
+        new CORSFilter();
+        new PathReturnResource();
+
+
+
+        //server.stop();
     }
 }
 

@@ -34,4 +34,8 @@ public class Node {
     public double getLat() {
         return lat;
     }
+
+    public void addEdge(Node node) {
+        this.edges.add(node);
+    }
 }

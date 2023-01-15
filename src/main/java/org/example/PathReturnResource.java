@@ -3,20 +3,27 @@ package org.example;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+//import jdk.internal.util.xml.impl.Input;
 import org.glassfish.jersey.client.JerseyClient;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.JerseyWebTarget;
 
+import java.io.IOException;
 import java.io.StringReader;
 
 /**
  * Root resource (exposed at "myresource" path)
  */
 @Path("/sysdev/orsdirections") //Resources are  defined by a path variable --check the difference
+@Produces({"application/json"})
+
 public class PathReturnResource {
     private static final String OPENROUTESERVICE_URL = "https://api.openrouteservice.org/v2/directions/driving-car";
+    private static final String OPENROUTESERVICE_URL2 = "https://api.openrouteservice.org/v2/directions/driving-car/geojson";
+
     private static final String OPENROUTESERVICE_KEY = "5b3ce3597851110001cf62489c868306f2434696a351dca46f78f8f5";
 
 //    @Consumes(MediaType.APPLICATION_JSON)
@@ -33,13 +40,17 @@ public class PathReturnResource {
      * @return String that will be returned as a text/plain response.
      */
     @GET //Change this to post for the other one
-    @Produces(MediaType.APPLICATION_JSON) // ??
-    //@Consumes
-    public String getIt(@QueryParam("originLat") double originLat, @QueryParam("originLon") double originLon, @QueryParam("destinationLat") double destinationLat, String destinationLon) {
+
+    public static JsonObject getIt(@QueryParam("originLat") String originLat,
+                                   @QueryParam("originLon") String originLon,
+                                   @QueryParam("destinationLat") String destinationLat,
+                                   @QueryParam("destinationLon") String destinationLon) {
         // use the jersey client api to make HTTP requests
 
-        String startVal = originLat + "," + originLon;
-        String endVal = destinationLat + "," + destinationLon;
+        String startVal = originLon + "," + originLat;
+        String endVal = destinationLon + "," + destinationLat;
+
+        System.out.println(endVal);
 
         //@Query paramlıları burada yap
 
@@ -52,19 +63,75 @@ public class PathReturnResource {
                 .header("Authorization", OPENROUTESERVICE_KEY) // send the API key for authentication
                 .header("Accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8")
                 .get();
+        System.out.println(response);
 
 
         // check the result
         if (response.getStatus() != Response.Status.OK.getStatusCode()) {
             throw new RuntimeException("Failed: HTTP error code: " + response.getStatus());
+        } else {
+
+            // get the JSON response
+            final String responseString = response.readEntity(String.class);
+            final JsonObject jsonObject = Json.createReader(new StringReader(responseString)).readObject();
+
+            //System.out.println("Response: " + jsonObject);
+
+            //eturn null;
+            return jsonObject;
         }
-
-        // get the JSON response
-        final String responseString = response.readEntity(String.class);
-        final JsonObject jsonObject = Json.createReader(new StringReader(responseString)).readObject();
-        System.out.println("Response: " + jsonObject);
-
-        return null;
-        //return jsonObject;
     }
+
+    @POST //Change this to post for the other one
+
+    // ??
+    //@Consumes
+    public static JsonObject postIt(InputPost in) throws IOException {
+        // use the jersey client api to make HTTP requests
+
+        InputPost in2 = in;
+
+        final JsonObject request1 = Json.createObjectBuilder()
+                .add("coordinates", Json.createArrayBuilder()
+                        .add(Json.createArrayBuilder().add(in2.originLon).add(in2.originLat).build())
+                        .add(Json.createArrayBuilder().add(in2.destinationLon).add(in2.destinationLat).build())
+                        .build()
+                ).build();
+
+        System.out.println(request1);
+
+
+        final JerseyClient client1 = new JerseyClientBuilder().build();
+        final JerseyWebTarget webTarget = client1.target(OPENROUTESERVICE_URL2);
+
+
+        final Response response = webTarget
+                .request(MediaType.APPLICATION_JSON)
+                .accept(MediaType.WILDCARD)
+                .header("Accept", "application/geo+json")
+                .header("Content-Type", "application/json, charset=utf-8")
+                .header("Authorization", OPENROUTESERVICE_KEY) // send the API key for authentication
+                .post(Entity.json(request1));
+        System.out.println(response);
+
+
+        // check the result
+        if (response.getStatus() != Response.Status.OK.getStatusCode()) {
+            throw new RuntimeException("Failed: HTTP error code: " + response.getStatus());
+        } else {
+
+            // get the JSON response
+            final String responseString = response.readEntity(String.class);
+            final JsonObject jsonObject = Json.createReader(new StringReader(responseString)).readObject();
+
+            //System.out.println("Response: " + jsonObject);
+
+            //eturn null;
+            return jsonObject;
+        }
+    }
+
+
+
+
 }

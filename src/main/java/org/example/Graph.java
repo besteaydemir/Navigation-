@@ -16,6 +16,10 @@ public class Graph {
         return distanceFunction.calculateDistance(source, target);
     }
 
+    public void addEdge(BasicNode initial, BasicNode end) {
+        //
+    }
+
     // The edge function, interface not an abstract class
     // (bc we don't need to share code between the distance functions)
 
