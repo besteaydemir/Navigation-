@@ -10,30 +10,35 @@ import java.util.List;
 import java.util.Map;
 
 public class GraphMap {
-    public Map<BasicNode, List<BasicNode>> adj = new HashMap<>();
+    public Map<BasicNode, List<BasicEdge>> adj = new HashMap<>(); //TODO: Public?
+
+    //TODO: Add the constructor
 
     public void addNode(BasicNode node) {
-        adj.put(node, new LinkedList<BasicNode>()); //??
+        adj.put(node, new LinkedList<BasicEdge>()); //??
     }
 
-    public void addEdge(BasicNode initial, BasicNode end) {
-        System.out.println(adj.get(initial));
+    public void addEdge(BasicNode initial, BasicNode terminal, Distance distance) {
+        // If the initial node does not exist in the graph
         if (adj.get(initial) == null) {
             this.addNode(initial);
         }
 
-        System.out.println(initial + "here" + adj.get(initial));
-        adj.get(initial).add(end); //Check conditions
-        System.out.println(initial + "here" + adj.get(initial));
+        // Add the edge to the list of edges of that node
+        adj.get(initial).add(new BasicEdge(initial, terminal, distance));
+
     }
+
+    // Overloading eddEdge method
+    //public void
 
     @Override
     public String toString() {
         String allNodes = "";
         for (BasicNode node : this.adj.keySet()) {
             String nodeList = "\r\n" + "Node: " + node + "\r\n";
-            for (BasicNode adjNode : this.adj.get(node)) {
-                nodeList = nodeList + "\t" + adjNode + "\r\n";
+            for (BasicEdge adjEdge : this.adj.get(node)) {
+                nodeList = nodeList + "\t" + adjEdge.getTerminal() + " - Cost: " + adjEdge.getCost() + "\r\n";
             }
             allNodes = allNodes + nodeList;
             }

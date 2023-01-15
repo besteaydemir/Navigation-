@@ -20,8 +20,12 @@ public class ExampleGraphfromSH {
         Class1 sch = mapper.readValue(new File("src/main/java/org/example/schleswig-holstein.json"), Class1.class);
 
 
-        //Instantiate the graph
+        // Instantiate the graph
         GraphMap gmap2 = new GraphMap();
+
+
+        // Distance metric to calculate the edge costs
+        Distance distance = new EuclidianDistance();
 
 
         // Get the list of coordinates (Nodes of the graph)
@@ -36,8 +40,8 @@ public class ExampleGraphfromSH {
             List<List> lineStrings = sch.features.get(i).geometry.coordinates;
 
             for (int m = 0; m < lineStrings.size() - 1; m++) {
-                // Get the pair
-                gmap2.addEdge(new BasicNode(lineStrings.get(m)), new BasicNode(lineStrings.get(m + 1)));
+                // Get the pair from the linestring
+                gmap2.addEdge(new BasicNode(lineStrings.get(m)), new BasicNode(lineStrings.get(m + 1)), distance);
             }
         }
 

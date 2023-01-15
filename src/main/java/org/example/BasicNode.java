@@ -25,8 +25,7 @@ public class BasicNode {
     public boolean equals(Object obj) {
         if (obj instanceof BasicNode) {
             BasicNode otherNode = (BasicNode) obj;  //Casting
-            System.out.println("s");
-            System.out.println(this.lon == otherNode.getLon() && this.lat == otherNode.getLat());
+            System.out.println("Equals is called for BasicNodes.");
             return this.lon == otherNode.getLon() && this.lat == otherNode.getLat();  //Check one &
 
         }

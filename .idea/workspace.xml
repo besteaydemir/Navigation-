@@ -4,20 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="41591d45-6f38-4d41-8bee-00d2f5c09475" name="Changes" comment="Update">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BasicNode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Class1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Class2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Class3.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Class4.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/ExampleGraphfromSH.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/GraphMap.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/InputPost.java" afterDir="false" />
+    <list default="true" id="41591d45-6f38-4d41-8bee-00d2f5c09475" name="Changes" comment="Assignment 2 (without documentation)">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BasicEdge.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Dijkstra.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BasicNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BasicNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Distance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Distance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/EuclidianDistance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/EuclidianDistance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ExampleGraphfromSH.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ExampleGraphfromSH.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Graph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/PathReturnResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/PathReturnResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/GraphMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GraphMap.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +142,7 @@
       <workItem from="1673267291654" duration="13382000" />
       <workItem from="1673552385856" duration="10973000" />
       <workItem from="1673707712294" duration="6000000" />
-      <workItem from="1673783406215" duration="383000" />
+      <workItem from="1673783406215" duration="4340000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <created>1672148730170</created>
@@ -155,7 +151,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672148730170</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Assignment 2 (without documentation)">
+      <created>1673783850868</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1673783850869</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,7 +169,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="new_branch2" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -175,7 +190,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update" />
+    <MESSAGE value="Assignment 2 (without documentation)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Assignment 2 (without documentation)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
