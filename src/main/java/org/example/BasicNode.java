@@ -25,7 +25,7 @@ public class BasicNode {
     public boolean equals(Object obj) {
         if (obj instanceof BasicNode) {
             BasicNode otherNode = (BasicNode) obj;  //Casting
-            System.out.println("Equals is called for BasicNodes.");
+            //System.out.println("Equals is called");
             return this.lon == otherNode.getLon() && this.lat == otherNode.getLat();  //Check one &
 
         }
@@ -36,7 +36,7 @@ public class BasicNode {
 
     @Override
     public int hashCode() {
-        return Double.valueOf(this.lat).hashCode() * Double.valueOf(this.lon).hashCode();
+        return Double.valueOf(this.lat).hashCode() + Double.valueOf(this.lon).hashCode();
     }
 
     public double getLon() {
@@ -52,5 +52,7 @@ public class BasicNode {
         return "Long:" + this.lon + " Lat:" + this.lat;
     }
 
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
 }
-
