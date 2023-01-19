@@ -11,14 +11,15 @@ import org.glassfish.jersey.client.JerseyClient;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.JerseyWebTarget;
 
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
+import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * Root resource (exposed at "myresource" path)
  */
-@Path("/sysdev/orsdirections") //Resources are  defined by a path variable --check the difference
-@Produces({"application/json"})
+@Path("/sysdev") //Resources are  defined by a path variable --check the difference
+
 
 public class PathReturnResource {
     private static final String OPENROUTESERVICE_URL = "https://api.openrouteservice.org/v2/directions/driving-car";
@@ -39,7 +40,12 @@ public class PathReturnResource {
      *
      * @return String that will be returned as a text/plain response.
      */
+
+
     @GET //Change this to post for the other one
+    @Path("/orsdirections")
+    @Produces(MediaType.APPLICATION_JSON)
+
 
     public static JsonObject getIt(@QueryParam("originLat") String originLat,
                                    @QueryParam("originLon") String originLon,
@@ -82,7 +88,12 @@ public class PathReturnResource {
         }
     }
 
-    @POST //Change this to post for the other one
+
+     //Change this to post for the other one
+
+    @POST
+    @Path("/orsdirections")
+    @Produces(MediaType.APPLICATION_JSON)
 
     // ??
     //@Consumes
@@ -127,11 +138,57 @@ public class PathReturnResource {
             //System.out.println("Response: " + jsonObject);
 
             //eturn null;
+            System.out.println(jsonObject);
             return jsonObject;
         }
     }
 
 
+    @Path("/dijkstra")
+    @Produces(MediaType.APPLICATION_JSON)
+    public static JsonObject dijkstra(@QueryParam("originLat") String originLat,
+                                      @QueryParam("originLon") String originLon,
+                                      @QueryParam("destinationLat") String destinationLat,
+                                      @QueryParam("destinationLon") String destinationLon) throws IOException {
+
+        try (Socket socket = new Socket("localhost", 1234)) {
+
+            // writing to server
+            PrintWriter out = new PrintWriter(
+                    socket.getOutputStream(), true);
+
+            // reading from server
+            BufferedReader in
+                    = new BufferedReader(new InputStreamReader(
+                    socket.getInputStream()));
+
+            // object of scanner class
+            Scanner sc = new Scanner(System.in);
+            String line = null;
+
+            while (!"exit".equalsIgnoreCase(line)) {
+
+                // reading from user
+                line = sc.nextLine(); //TODO coordinates
+
+                // sending the user input to server
+                out.println(line);
+                out.flush();
+
+                // displaying server reply
+                System.out.println("Server replied "
+                        + in.readLine()); //TODO:Convert this to jsonObject
+
+            }
+
+            // closing the scanner object
+            sc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
 
 }

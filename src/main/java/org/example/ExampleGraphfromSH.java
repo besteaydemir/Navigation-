@@ -48,6 +48,11 @@ public class ExampleGraphfromSH {
         gmap2.addEdge(new BasicNode(2,4), new BasicNode(1,4), distance);
         gmap2.addEdge(new BasicNode(2,5), new BasicNode(21,5), distance);
         gmap2.addEdge(new BasicNode(3,5), new BasicNode(2,4), distance);
+        gmap2.addEdge(new BasicNode(3,5), new BasicNode(21,5), distance);
+        gmap2.addEdge(new BasicNode(3,5), new BasicNode(1,4), distance);
+        gmap2.addEdge(new BasicNode(1,4), new BasicNode(2,5), distance);
+        gmap2.addEdge(new BasicNode(1,4), new BasicNode(3,5), distance);
+        gmap2.addEdge(new BasicNode(2,4), new BasicNode(2,5), distance);
 
         HeuristicFunction h = new HeuristicFunction() {
             @Override
@@ -58,7 +63,7 @@ public class ExampleGraphfromSH {
         };
 
         ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm();
-        List<BasicNode> path = algorithm.algorithm(gmap2, new BasicNode(3,5), new BasicNode(2,4), h);
+        List<BasicNode> path = algorithm.algorithm(gmap2, new BasicNode(21,5), new BasicNode(1,4), h);
         System.out.println(gmap2);
         System.out.println(path);
 //        gmap2.addEdge(exNode, new BasicNode(2,5), distance);
