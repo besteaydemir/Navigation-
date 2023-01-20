@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.distance.Distance;
+import org.example.graph.BasicNode;
+
 public class BasicEdge {
     private BasicNode initial;
     private BasicNode terminal;

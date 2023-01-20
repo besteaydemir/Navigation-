@@ -1,4 +1,4 @@
-package org.example;
+package org.example.graph;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,5 +54,12 @@ public class BasicNode {
 
     public void setLat(double lat) {
         this.lat = lat;
+    }
+
+    public List<Double> returnLatLonList(){
+        ArrayList<Double> list = new ArrayList<>();
+        list.add(lat);
+        list.add(lon);
+        return list;
     }
 }

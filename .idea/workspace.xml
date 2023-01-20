@@ -4,14 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="41591d45-6f38-4d41-8bee-00d2f5c09475" name="Changes" comment="GraphMap update and an early implementation of A*">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Client.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/RouteServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Server.java" afterDir="false" />
+    <list default="true" id="41591d45-6f38-4d41-8bee-00d2f5c09475" name="Changes" comment="Testing A* and an early implementation of TCP server">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/ClientTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/distance/HaversineDistance.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/implement/SmallGraphTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ExampleGraphfromSH.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ExampleGraphfromSH.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/MyResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/MyResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BasicEdge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BasicEdge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BasicNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/graph/BasicNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Dijkstra.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Distance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/distance/Distance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/EuclidianDistance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/distance/EuclidianDistance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ExampleGraphfromSH.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/implement/ExampleGraphfromSH.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Graph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/GraphMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/graph/GraphMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/HeuristicFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/HeuristicFunction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/PathReturnResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/PathReturnResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/RouteRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/RouteRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/RouteServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/RouteServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ShortestPathAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ShortestPathAlgorithm.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,22 +64,9 @@
       <recent name="C:\Users\Beste Aydemir\IdeaProjects\SysDevProjectTest\src\main\java\org\example" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Class1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.Class1" />
-      <module name="SysDevProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.example.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.Client" />
+  <component name="RunManager" selected="Application.ExampleGraphfromSH">
+    <configuration name="ClientTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.ClientTest" />
       <module name="SysDevProject" />
       <extension name="coverage">
         <pattern>
@@ -83,11 +79,11 @@
       </method>
     </configuration>
     <configuration name="ExampleGraphfromSH" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.ExampleGraphfromSH" />
+      <option name="MAIN_CLASS_NAME" value="org.example.implement.ExampleGraphfromSH" />
       <module name="SysDevProject" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.*" />
+          <option name="PATTERN" value="org.example.implement.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -108,8 +104,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.Server" />
+    <configuration name="RouteServer (4)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.RouteServer" />
+      <module name="SysDevProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RouteServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.RouteServer" />
       <module name="SysDevProject" />
       <extension name="coverage">
         <pattern>
@@ -123,11 +132,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Client" />
-        <item itemvalue="Application.Server" />
         <item itemvalue="Application.ExampleGraphfromSH" />
-        <item itemvalue="Application.Class1" />
+        <item itemvalue="Application.RouteServer" />
+        <item itemvalue="Application.ClientTest" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.RouteServer (4)" />
       </list>
     </recent_temporary>
   </component>
@@ -164,7 +173,10 @@
       <workItem from="1673783406215" duration="11565000" />
       <workItem from="1673958579974" duration="10145000" />
       <workItem from="1674031840607" duration="6852000" />
-      <workItem from="1674068445562" duration="12978000" />
+      <workItem from="1674068445562" duration="13052000" />
+      <workItem from="1674123291757" duration="999000" />
+      <workItem from="1674127343151" duration="1820000" />
+      <workItem from="1674223119035" duration="14614000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <created>1672148730170</created>
@@ -194,7 +206,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674043827443</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Testing A* and an early implementation of TCP server">
+      <created>1674089494395</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1674089494395</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -229,7 +248,8 @@
     <MESSAGE value="Assignment 2 (without documentation)" />
     <MESSAGE value="Changed the graph representation to the one with edges" />
     <MESSAGE value="GraphMap update and an early implementation of A*" />
-    <option name="LAST_COMMIT_MESSAGE" value="GraphMap update and an early implementation of A*" />
+    <MESSAGE value="Testing A* and an early implementation of TCP server" />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing A* and an early implementation of TCP server" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

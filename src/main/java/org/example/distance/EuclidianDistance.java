@@ -1,5 +1,7 @@
-package org.example;
+package org.example.distance;
 // Implement the interface
+
+import org.example.graph.BasicNode;
 
 public class EuclidianDistance implements Distance {
     @Override

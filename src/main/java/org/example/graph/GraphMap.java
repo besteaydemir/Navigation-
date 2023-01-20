@@ -1,9 +1,8 @@
-package org.example;
+package org.example.graph;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.distance.Distance;
+import org.example.graph.BasicNode;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 public class GraphMap {
@@ -65,5 +64,27 @@ public class GraphMap {
     public List<BasicNode> getNodeEdgeList(BasicNode node) { //TODO
         List<BasicNode> nodeList = new ArrayList<>(adj.get(node).keySet());
         return nodeList;
+    }
+
+    /**
+     *
+     * @param lon
+     * @param lat
+     * @return
+     */
+    public BasicNode nextNode(double lon, double lat) {
+        double smallest = Double.POSITIVE_INFINITY;
+        BasicNode nodeToReturn = new BasicNode(lon, lat);
+
+        for (BasicNode nodeKey : this.adj.keySet()) {
+            double diff = Math.pow((nodeKey.getLat() - lat), 2) + Math.pow((nodeKey.getLon() - lon), 2);
+
+            if (diff < smallest) {
+                smallest = diff;
+                nodeToReturn = nodeKey;
+            }
+        }
+
+        return nodeToReturn;
     }
 }

@@ -1,8 +1,19 @@
 package org.example;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.ws.rs.client.Entity;
+import org.example.graph.BasicNode;
+import org.example.graph.GraphMap;
+
 import java.util.*;
 
 public class ShortestPathAlgorithm {
+    GraphMap graph; //Is this stupid -_-, graph classına yaz o zaman methodları -_-
+
+    public ShortestPathAlgorithm(GraphMap graph) {
+        this.graph = graph;
+    }
 
     public List<BasicNode> algorithm(GraphMap graph, BasicNode initial, BasicNode terminal, HeuristicFunction h) {
 
@@ -13,10 +24,10 @@ public class ShortestPathAlgorithm {
         for (BasicNode nodeKey : graph.adj.keySet()) { //TODO oha
             fScore.put(nodeKey,  Double.POSITIVE_INFINITY);
         }
-        System.out.println(fScore);
+        //System.out.println(fScore);
 
         fScore.put(initial, h.getCost(initial, terminal));
-        System.out.println(fScore);
+        //System.out.println(fScore);
 
 
         // Initialize the hashmap that holds Node and gScore value pairs
@@ -27,7 +38,7 @@ public class ShortestPathAlgorithm {
         }
 
         gScore.put(initial, 0.0);
-        System.out.println(gScore);
+        //System.out.println(gScore);
 
 
 
@@ -50,25 +61,25 @@ public class ShortestPathAlgorithm {
 
 
         while (!openSet.isEmpty()) {
-            System.out.println("df");
-            System.out.println(openSet);
+            //System.out.println("df");
+            //System.out.println(openSet);
             BasicNode current = openSet.poll(); //TODO: bu min mi max mi ya
-            System.out.println(current);
+            //System.out.println(current);
             if (current.equals(terminal)) {
                 return reconstructPath(cameFrom, current); //TODO
             }
 
             openSet.remove(current);
-            System.out.println("ab");
-            System.out.println(openSet);
+            //System.out.println("ab");
+            //System.out.println(openSet);
 
             for (BasicNode neighborNode : graph.getNodeEdgeSet(current)) {
                 double tentativegScore = gScore.get(current) + graph.getEdgeWeight(current, neighborNode);
-                System.out.println("g" + tentativegScore);
+                //System.out.println("g" + tentativegScore);
                 if (tentativegScore < gScore.get(neighborNode)) {
                     cameFrom.put(neighborNode, current);
-                    System.out.println("camefrom");
-                    System.out.println(cameFrom);
+                    //System.out.println("camefrom");
+                    //System.out.println(cameFrom);
                     // TODO if not absent
 
                     gScore.put(neighborNode, tentativegScore); //TODO
@@ -76,8 +87,8 @@ public class ShortestPathAlgorithm {
                     if (!openSet.contains(neighborNode)) {
                         openSet.add(neighborNode);
                     }
-                    System.out.println("be");
-                    System.out.println(openSet);
+                    //System.out.println("be");
+                    //System.out.println(openSet);
                 }
             }
         }
@@ -95,6 +106,38 @@ public class ShortestPathAlgorithm {
         return totalPath;
     }
 
+
+    public List<BasicNode> anyLocationDijkstra (BasicNode initial, BasicNode terminal) {
+        BasicNode closestInit = this.graph.nextNode(initial.getLon(), initial.getLat());
+        BasicNode closestTerm = this.graph.nextNode(terminal.getLon(), terminal.getLat());
+        HeuristicFunction h = new HeuristicFunction() {
+            @Override
+            public double getCost(BasicNode initial, BasicNode target) {
+                return 0;
+            }
+        };
+        return this.algorithm(this.graph, closestInit, closestTerm, h);
+    }
+
+    public List<BasicNode> anyLocationAStar(BasicNode initial, BasicNode terminal, HeuristicFunction h) {
+        BasicNode closestInit = this.graph.nextNode(initial.getLon(), initial.getLat());
+        BasicNode closestTerm = this.graph.nextNode(terminal.getLon(), terminal.getLat());
+        return this.algorithm(this.graph, closestInit, closestTerm, h);
+    }
+
+//    public String pathQuerytoJSON(List <BasicNode> query) {
+//        InputPost in2 = in;
+//
+//        final JsonObject request1 = Json.createObjectBuilder()
+//                .add("coordinates", Json.createArrayBuilder()
+//                        .add(Json.createArrayBuilder().add(in2.originLon).add(in2.originLat).build())
+//                        .add(Json.createArrayBuilder().add(in2.destinationLon).add(in2.destinationLat).build())
+//                        .build()
+//                ).build();
+//
+//        System.out.println(request1);
+//        return Entity.json(request1);
+//    }
 
 
 

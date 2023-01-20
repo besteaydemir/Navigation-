@@ -81,7 +81,7 @@ public class PathReturnResource {
             final String responseString = response.readEntity(String.class);
             final JsonObject jsonObject = Json.createReader(new StringReader(responseString)).readObject();
 
-            //System.out.println("Response: " + jsonObject);
+            System.out.println("Response: " + jsonObject);
 
             //eturn null;
             return jsonObject;
@@ -163,31 +163,41 @@ public class PathReturnResource {
                     socket.getInputStream()));
 
             // object of scanner class
-            Scanner sc = new Scanner(System.in);
+            //Scanner sc = new Scanner(System.in);
             String line = null;
 
-            while (!"exit".equalsIgnoreCase(line)) {
 
-                // reading from user
-                line = sc.nextLine(); //TODO coordinates
 
-                // sending the user input to server
-                out.println(line);
-                out.flush();
+            // reading from user
+            line = originLat + " " +  originLon + " " + destinationLat + " " + destinationLon; //TODO coordinates
+            System.out.println(line);
 
-                // displaying server reply
-                System.out.println("Server replied "
-                        + in.readLine()); //TODO:Convert this to jsonObject
+            // sending the user input to server
+            out.println(line);
+            out.flush();
 
-            }
+            // displaying server reply
+            System.out.println("Server replied "
+                    + in.readLine()); //TODO:Convert this to jsonObject
 
-            // closing the scanner object
-            sc.close();
+
+
+        // closing the scanner object
+        //sc.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
+
+
+        final JsonObject request1 = Json.createObjectBuilder()
+                .add("coordinates", Json.createArrayBuilder()
+                        .add(Json.createArrayBuilder().add(originLon + 3).add(originLat).build())
+                        .add(Json.createArrayBuilder().add(destinationLon).add(destinationLat).build())
+                        .build()
+                ).build();
+        return request1;
     }
 
 

@@ -1,43 +1,26 @@
-package org.example;
+package org.example.implement;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.Class1;
+import org.example.HeuristicFunction;
+import org.example.ShortestPathAlgorithm;
+import org.example.distance.Distance;
+import org.example.distance.EuclidianDistance;
+import org.example.graph.BasicNode;
+import org.example.graph.GraphMap;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-
-public class ExampleGraphfromSH {
-    //Read from SH and instantiate a graph object
+public class SmallGraphTest {
 
     public static void main(String[] args) throws IOException {
-        // Read the JSON file to an object
-        ObjectMapper mapper = new ObjectMapper(); // create once, reuse
-        Class1 sch = mapper.readValue(new File("src/main/java/org/example/schleswig-holstein.json"), Class1.class);
-
         // The distance function
         Distance distance = new EuclidianDistance();
 
         //Instantiate the graph
         GraphMap gmap2 = new GraphMap();
-
-//        BasicNode node1 = new BasicNode(3,4);
-//        BasicNode node2 = new BasicNode(3,4);
-//        System.out.println(node1);
-//        System.out.println(node2);
-//        System.out.println(node1.hashCode());
-//        System.out.println(node2.hashCode());
-//        node1.setLat(5);
-//        System.out.println(node1);
-//        System.out.println(node2);
-//        System.out.println(node1.hashCode());
-//        System.out.println(node2.hashCode());
-//        node1.setLat(5);
-
 
         BasicNode exNode = new BasicNode(3,5);
         BasicNode exNode2 = new BasicNode(2,5);
@@ -62,7 +45,7 @@ public class ExampleGraphfromSH {
             }
         };
 
-        ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm();
+        ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm(gmap2);
         List<BasicNode> path = algorithm.algorithm(gmap2, new BasicNode(21,5), new BasicNode(1,4), h);
         System.out.println(gmap2);
         System.out.println(path);
@@ -84,26 +67,6 @@ public class ExampleGraphfromSH {
 
 
 
-
-
-//         //Get the list of coordinates (Nodes of the graph)
-//        List<List> coordinateList = sch.features.get(0).geometry.coordinates;
-//        for (List<Double> doubleList: coordinateList) {
-//            gmap2.addNode(new BasicNode(doubleList));
-//        }
-//
-//
-//        // Get the edges
-//        for(int i = 1; i < sch.features.size(); i++){
-//            List<List> lineStrings = sch.features.get(i).geometry.coordinates;
-//
-//            for (int m = 0; m < lineStrings.size() - 1; m++) {
-//                // Get the pair
-//                gmap2.addEdge(new BasicNode(lineStrings.get(m)), new BasicNode(lineStrings.get(m + 1)), distance);
-//            }
-//        }
-//
-//        System.out.println(gmap2);
 
     }
 }

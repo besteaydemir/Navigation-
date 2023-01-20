@@ -1,8 +1,10 @@
 package org.example;
 
+import org.example.distance.Distance;
+import org.example.graph.BasicNode;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
 
 public class Graph {
     private List<Node> nodes = new ArrayList<>(); // Because it can infer the type, can just write this instead of  ArrayList<ArrayList<Node>()
