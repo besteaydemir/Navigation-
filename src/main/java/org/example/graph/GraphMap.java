@@ -74,12 +74,13 @@ public class GraphMap {
      */
     public BasicNode nextNode(double lon, double lat) {
         double smallest = Double.POSITIVE_INFINITY;
-        BasicNode nodeToReturn = new BasicNode(lon, lat);
+        BasicNode nodeToReturn = new BasicNode(lat, lon);
 
         for (BasicNode nodeKey : this.adj.keySet()) {
-            double diff = Math.pow((nodeKey.getLat() - lat), 2) + Math.pow((nodeKey.getLon() - lon), 2);
+            double diff = Math.pow((nodeKey.getLat() - lat), 2) + Math.pow((nodeKey.getLon() - lon), 2); //TODO Dist func koy
 
             if (diff < smallest) {
+                System.out.println("nodetoreutn" + nodeToReturn );
                 smallest = diff;
                 nodeToReturn = nodeKey;
             }

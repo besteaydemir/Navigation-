@@ -11,6 +11,7 @@ import org.example.graph.GraphMap;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,15 +31,18 @@ public class ExampleGraphfromSH {
 
 
         //Get the list of coordinates (Nodes of the graph)
-        List<List> coordinateList = sch.features.get(0).geometry.coordinates;
-        for (List<Double> doubleList: coordinateList) {
+        ArrayList<ArrayList<Double>> coordinateList = sch.features.get(0).geometry.coordinates;
+        double smallest = Double.NEGATIVE_INFINITY;
+        double largest = Double.NEGATIVE_INFINITY;
+        for (ArrayList<Double> doubleList: coordinateList) {
+
             gmap2.addNode(new BasicNode(doubleList));
         }
 
 
         // Get the edges
         for(int i = 1; i < sch.features.size(); i++){
-            List<List> lineStrings = sch.features.get(i).geometry.coordinates;
+            ArrayList<ArrayList<Double>> lineStrings = sch.features.get(i).geometry.coordinates;
 
             for (int m = 0; m < lineStrings.size() - 1; m++) {
                 // Get the pair
@@ -49,7 +53,15 @@ public class ExampleGraphfromSH {
         System.out.println(gmap2.adj.size());
 
         ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm(gmap2);
-        System.out.println(algorithm.anyLocationDijkstra(new BasicNode(9.8370639,54.4746254), new BasicNode(9.8371741,54.4743648)));
+        HeuristicFunction h = new HeuristicFunction() {
+            @Override
+            public double getCost(BasicNode initial, BasicNode target) {
+                Distance d = new EuclidianDistance();
+                return d.calculateDistance(initial, target);
+            }
+        };
+        System.out.println(algorithm.algorithm(gmap2, new BasicNode(9.8385465,54.4798868),
+                new BasicNode(9.8386019,54.4798218), h));
 
     }
 }

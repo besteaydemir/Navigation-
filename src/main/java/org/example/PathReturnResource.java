@@ -177,8 +177,12 @@ public class PathReturnResource {
             out.flush();
 
             // displaying server reply
+            String readHere =   in.readLine();
             System.out.println("Server replied "
-                    + in.readLine()); //TODO:Convert this to jsonObject
+                    + readHere); //TODO:Convert this to jsonObject
+
+            final JsonObject jsonObject = Json.createReader(new StringReader(readHere)).readObject();
+            return jsonObject;
 
 
 
@@ -188,16 +192,10 @@ public class PathReturnResource {
             e.printStackTrace();
         }
 
+        return null;
 
 
 
-        final JsonObject request1 = Json.createObjectBuilder()
-                .add("coordinates", Json.createArrayBuilder()
-                        .add(Json.createArrayBuilder().add(originLon + 3).add(originLat).build())
-                        .add(Json.createArrayBuilder().add(destinationLon).add(destinationLat).build())
-                        .build()
-                ).build();
-        return request1;
     }
 
 

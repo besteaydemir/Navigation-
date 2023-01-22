@@ -1,5 +1,7 @@
 package org.example;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.client.Entity;
@@ -15,7 +17,7 @@ public class ShortestPathAlgorithm {
         this.graph = graph;
     }
 
-    public List<BasicNode> algorithm(GraphMap graph, BasicNode initial, BasicNode terminal, HeuristicFunction h) {
+    public ArrayList<BasicNode> algorithm(GraphMap graph, BasicNode initial, BasicNode terminal, HeuristicFunction h) {
 
         // Initialize the hashmap that holds Node and fScore value pairs
         HashMap<BasicNode, Double> fScore = new HashMap<>();
@@ -96,8 +98,8 @@ public class ShortestPathAlgorithm {
 
     }
 
-    public List<BasicNode> reconstructPath (HashMap<BasicNode, BasicNode> cameFrom, BasicNode current) {
-        List<BasicNode> totalPath = new ArrayList<>();
+    public ArrayList<BasicNode> reconstructPath (HashMap<BasicNode, BasicNode> cameFrom, BasicNode current) {
+        ArrayList<BasicNode> totalPath = new ArrayList<>();
         totalPath.add(current);
         while (cameFrom.containsKey(current)) {
             current = cameFrom.get(current);
@@ -107,9 +109,10 @@ public class ShortestPathAlgorithm {
     }
 
 
-    public List<BasicNode> anyLocationDijkstra (BasicNode initial, BasicNode terminal) {
+    public ArrayList<BasicNode> anyLocationDijkstra (BasicNode initial, BasicNode terminal) {
         BasicNode closestInit = this.graph.nextNode(initial.getLon(), initial.getLat());
         BasicNode closestTerm = this.graph.nextNode(terminal.getLon(), terminal.getLat());
+        System.out.println("nodes" + closestInit + closestTerm);
         HeuristicFunction h = new HeuristicFunction() {
             @Override
             public double getCost(BasicNode initial, BasicNode target) {
@@ -119,25 +122,44 @@ public class ShortestPathAlgorithm {
         return this.algorithm(this.graph, closestInit, closestTerm, h);
     }
 
-    public List<BasicNode> anyLocationAStar(BasicNode initial, BasicNode terminal, HeuristicFunction h) {
+    public ArrayList<BasicNode> anyLocationAStar(BasicNode initial, BasicNode terminal, HeuristicFunction h) {
         BasicNode closestInit = this.graph.nextNode(initial.getLon(), initial.getLat());
         BasicNode closestTerm = this.graph.nextNode(terminal.getLon(), terminal.getLat());
         return this.algorithm(this.graph, closestInit, closestTerm, h);
     }
 
-//    public String pathQuerytoJSON(List <BasicNode> query) {
-//        InputPost in2 = in;
-//
-//        final JsonObject request1 = Json.createObjectBuilder()
-//                .add("coordinates", Json.createArrayBuilder()
-//                        .add(Json.createArrayBuilder().add(in2.originLon).add(in2.originLat).build())
-//                        .add(Json.createArrayBuilder().add(in2.destinationLon).add(in2.destinationLat).build())
-//                        .build()
-//                ).build();
-//
-//        System.out.println(request1);
-//        return Entity.json(request1);
-//    }
+    public String pathQuerytoJSON(List <BasicNode> query) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper(); // create once, reuse //TODO unnecesaary
+
+        ArrayList<ArrayList<Double>> coordinates= new ArrayList<>();
+        for (BasicNode node: query) {
+            ArrayList<Double> co = new ArrayList<>();
+            co.add(node.getLat());
+            co.add(node.getLon());
+            coordinates.add(co);
+        }
+
+        Class4 c4 = new Class4();
+        c4.maxspeed = 0;
+        Class3 c3 = new Class3();
+        c3.type = "";
+        c3.coordinates = coordinates;
+        Class2 c2 = new Class2();
+        c2.type = "";
+        c2.geometry = c3;
+        c2.properties = c4;
+        ArrayList<Class2> features = new ArrayList<Class2>();
+        features.add(c2);
+        Class1 c1 = new Class1();
+        c1.type = "";
+        c1.features = features;
+
+
+        String jsonString = mapper.writeValueAsString(c1);
+        System.out.println(jsonString);
+
+        return jsonString;
+    }
 
 
 
