@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.client.Entity;
+import org.example.distance.Distance;
+import org.example.distance.EuclidianDistance;
+import org.example.distance.HaversineDistance;
 import org.example.graph.BasicNode;
 import org.example.graph.GraphMap;
 
@@ -112,14 +115,17 @@ public class ShortestPathAlgorithm {
     public ArrayList<BasicNode> anyLocationDijkstra (BasicNode initial, BasicNode terminal) {
         BasicNode closestInit = this.graph.nextNode(initial.getLon(), initial.getLat());
         BasicNode closestTerm = this.graph.nextNode(terminal.getLon(), terminal.getLat());
-        System.out.println("nodes" + closestInit + closestTerm);
+        System.out.println("nodes" + closestInit + "and" + closestTerm);
         HeuristicFunction h = new HeuristicFunction() {
             @Override
             public double getCost(BasicNode initial, BasicNode target) {
-                return 0;
+                Distance d = new HaversineDistance();
+                return d.calculateDistance(initial, target);
             }
         };
-        return this.algorithm(this.graph, closestInit, closestTerm, h);
+        return this.algorithm(this.graph, closestInit, closestTerm, h); //TODO
+
+        //return this.algorithm(this.graph, initial, terminal, h);
     }
 
     public ArrayList<BasicNode> anyLocationAStar(BasicNode initial, BasicNode terminal, HeuristicFunction h) {
@@ -134,24 +140,32 @@ public class ShortestPathAlgorithm {
         ArrayList<ArrayList<Double>> coordinates= new ArrayList<>();
         for (BasicNode node: query) {
             ArrayList<Double> co = new ArrayList<>();
-            co.add(node.getLat());
             co.add(node.getLon());
+            co.add(node.getLat());
             coordinates.add(co);
         }
+//        ArrayList<Double> co = new ArrayList<>();
+//        co.add(10.0);
+//        co.add(54.0);
+//        coordinates.add(co);
+
+        double[][] array = new double[coordinates.size()][];
+        double[][] intArray = coordinates.stream().map(  u  ->  u.stream().mapToDouble(i->i).toArray()  ).toArray(double[][]::new);
+
 
         Class4 c4 = new Class4();
         c4.maxspeed = 0;
         Class3 c3 = new Class3();
-        c3.type = "";
-        c3.coordinates = coordinates;
+        c3.type = "LineString";
+        c3.coordinates = intArray;
         Class2 c2 = new Class2();
-        c2.type = "";
+        c2.type = "Feature";
         c2.geometry = c3;
         c2.properties = c4;
         ArrayList<Class2> features = new ArrayList<Class2>();
         features.add(c2);
         Class1 c1 = new Class1();
-        c1.type = "";
+        c1.type = "FeatureCollection";
         c1.features = features;
 
 

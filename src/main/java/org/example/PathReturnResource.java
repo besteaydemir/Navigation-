@@ -18,7 +18,7 @@ import java.util.Scanner;
 /**
  * Root resource (exposed at "myresource" path)
  */
-@Path("/sysdev") //Resources are  defined by a path variable --check the difference
+@Path("sysdev") //Resources are  defined by a path variable --check the difference
 
 
 public class PathReturnResource {
@@ -138,15 +138,16 @@ public class PathReturnResource {
             //System.out.println("Response: " + jsonObject);
 
             //eturn null;
-            System.out.println(jsonObject);
+            System.out.println("resource" + jsonObject);
             return jsonObject;
         }
     }
 
 
-    @Path("/dijkstra")
+    @Path("dijkstra")
     @Produces(MediaType.APPLICATION_JSON)
-    public static JsonObject dijkstra(@QueryParam("originLat") String originLat,
+    @GET
+    public static String dijkstra(@QueryParam("originLat") String originLat,
                                       @QueryParam("originLon") String originLon,
                                       @QueryParam("destinationLat") String destinationLat,
                                       @QueryParam("destinationLon") String destinationLon) throws IOException {
@@ -169,7 +170,7 @@ public class PathReturnResource {
 
 
             // reading from user
-            line = originLat + " " +  originLon + " " + destinationLat + " " + destinationLon; //TODO coordinates
+            line = originLon + " " +  originLat + " " + destinationLon + " " + destinationLat; //TODO coordinates
             System.out.println(line);
 
             // sending the user input to server
@@ -182,7 +183,8 @@ public class PathReturnResource {
                     + readHere); //TODO:Convert this to jsonObject
 
             final JsonObject jsonObject = Json.createReader(new StringReader(readHere)).readObject();
-            return jsonObject;
+            System.out.println("resource" + jsonObject);
+            return readHere;
 
 
 
@@ -191,6 +193,7 @@ public class PathReturnResource {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         return null;
 

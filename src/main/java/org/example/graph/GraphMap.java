@@ -1,6 +1,7 @@
 package org.example.graph;
 
 import org.example.distance.Distance;
+import org.example.distance.HaversineDistance;
 import org.example.graph.BasicNode;
 
 import java.util.*;
@@ -10,15 +11,15 @@ public class GraphMap {
     //TODO: Distance could be here as well
 
     public void addNode(BasicNode node) {
-        System.out.println("Add node is called" + node);
         // Add if the graph does not have that node
         if (!adj.containsKey(node)) {
             adj.put(node, new HashMap<>()); //??
         }
     }
 
+
+
     public void addEdge(BasicNode initial, BasicNode end, Distance distance) {
-        System.out.println("Add edge is called" + initial + end);
 
         if (!adj.containsKey(initial)) {
             this.addNode(initial);
@@ -33,6 +34,7 @@ public class GraphMap {
         adj.get(initial).put(end, weight); //TODO: check if exists
 
     }
+
 //    public HashMap<BasicNode, Double> returnEdges(BasicNode node) {
 //        return this.adj.get(node);
 //    }
@@ -74,18 +76,23 @@ public class GraphMap {
      */
     public BasicNode nextNode(double lon, double lat) {
         double smallest = Double.POSITIVE_INFINITY;
-        BasicNode nodeToReturn = new BasicNode(lat, lon);
+
+        double latReturn = lat;
+        double lonReturn = lon;
+        HaversineDistance d = new HaversineDistance();
+        BasicNode a = new BasicNode(lon, lat);
 
         for (BasicNode nodeKey : this.adj.keySet()) {
-            double diff = Math.pow((nodeKey.getLat() - lat), 2) + Math.pow((nodeKey.getLon() - lon), 2); //TODO Dist func koy
-
+            double diff = d.calculateDistance(nodeKey, a);
             if (diff < smallest) {
-                System.out.println("nodetoreutn" + nodeToReturn );
+
                 smallest = diff;
-                nodeToReturn = nodeKey;
+                latReturn = nodeKey.getLat();
+                lonReturn = nodeKey.getLon();
+                System.out.println("nodetoreutn" + latReturn + " " + lonReturn + "smallest " + smallest);
             }
         }
 
-        return nodeToReturn;
+        return new BasicNode(lonReturn, latReturn);
     }
 }

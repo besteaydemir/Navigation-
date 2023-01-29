@@ -4,7 +4,7 @@ import org.example.graph.BasicNode;
 
 
 public class HaversineDistance implements Distance{
-    final public double radius = 6371e3;
+    final public double radius = 6371009;
 
     /**
      *  Function calculating the Haversine distance between two BasicNodes.
@@ -15,7 +15,7 @@ public class HaversineDistance implements Distance{
      */
     public double calculateDistance(BasicNode source, BasicNode target) {
         double sourceLatRad = source.getLat() * Math.PI/180;
-        double targetLatRad = source.getLat() * Math.PI/180;
+        double targetLatRad = target.getLat() * Math.PI/180;
         double latDiffRad = targetLatRad - sourceLatRad;
         double lonDiffRad = (target.getLon()-source.getLon()) * Math.PI/180;
 

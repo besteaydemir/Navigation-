@@ -29,19 +29,19 @@ class RouteServer {
         GraphMap gmap2 = new GraphMap();
 
         // Get the list of coordinates (Nodes of the graph)
-        ArrayList<ArrayList<Double>> coordinateList = sch.features.get(0).geometry.coordinates;
-        for (ArrayList<Double> doubleList: coordinateList) {
+        double[][] coordinateList = sch.features.get(0).geometry.coordinates;
+        for (double[] doubleList: coordinateList) {
             gmap2.addNode(new BasicNode(doubleList));
         }
 
 
         // Get the edges
         for(int i = 1; i < sch.features.size(); i++){
-            ArrayList<ArrayList<Double>> lineStrings = sch.features.get(i).geometry.coordinates;
+            double[][] lineStrings = sch.features.get(i).geometry.coordinates;
 
-            for (int m = 0; m < lineStrings.size() - 1; m++) {
+            for (int m = 0; m < lineStrings.length - 1; m++) {
                 // Get the pair
-                gmap2.addEdge(new BasicNode(lineStrings.get(m)), new BasicNode(lineStrings.get(m + 1)), distance);
+                gmap2.addEdge(new BasicNode(lineStrings[m]), new BasicNode(lineStrings[m + 1]), distance);
             }
         }
 
@@ -71,7 +71,7 @@ class RouteServer {
 
                 // create a new thread object
                 ClientHandler clientSock
-                        = new ClientHandler(client, gmap2, alg);
+                        = new ClientHandler(client, gmap2, alg); //Is this stupid
 
                 // This thread will handle the client
                 // separately
@@ -125,7 +125,6 @@ class RouteServer {
 
                 String line;
                 while ((line = in.readLine()) != null) {
-
                     // writing the received message from
                     // client
                     System.out.printf(
@@ -140,6 +139,11 @@ class RouteServer {
                     //Get the output as list of nodes
                     ArrayList<BasicNode> path = alg.anyLocationDijkstra(new BasicNode(numbers[0], numbers[1]),
                             new BasicNode(numbers[2], numbers[3]));
+
+//                    ArrayList<BasicNode> path = alg.anyLocationDijkstra(new BasicNode(9.8663685,54.4472826),
+//                            new BasicNode(9.86994,54.4474017));
+
+
                     System.out.println("path here" + path);
 
 

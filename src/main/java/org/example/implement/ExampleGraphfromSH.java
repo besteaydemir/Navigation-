@@ -6,6 +6,7 @@ import org.example.HeuristicFunction;
 import org.example.ShortestPathAlgorithm;
 import org.example.distance.Distance;
 import org.example.distance.EuclidianDistance;
+import org.example.distance.HaversineDistance;
 import org.example.graph.BasicNode;
 import org.example.graph.GraphMap;
 
@@ -30,27 +31,45 @@ public class ExampleGraphfromSH {
         GraphMap gmap2 = new GraphMap();
 
 
-        //Get the list of coordinates (Nodes of the graph)
-        ArrayList<ArrayList<Double>> coordinateList = sch.features.get(0).geometry.coordinates;
-        double smallest = Double.NEGATIVE_INFINITY;
-        double largest = Double.NEGATIVE_INFINITY;
-        for (ArrayList<Double> doubleList: coordinateList) {
-
+        // Get the list of coordinates (Nodes of the graph)
+        double[][] coordinateList = sch.features.get(0).geometry.coordinates;
+        for (double[] doubleList: coordinateList) {
             gmap2.addNode(new BasicNode(doubleList));
         }
 
 
         // Get the edges
         for(int i = 1; i < sch.features.size(); i++){
-            ArrayList<ArrayList<Double>> lineStrings = sch.features.get(i).geometry.coordinates;
+            double[][] lineStrings = sch.features.get(i).geometry.coordinates;
 
-            for (int m = 0; m < lineStrings.size() - 1; m++) {
+            for (int m = 0; m < lineStrings.length - 1; m++) {
                 // Get the pair
-                gmap2.addEdge(new BasicNode(lineStrings.get(m)), new BasicNode(lineStrings.get(m + 1)), distance);
+                gmap2.addEdge(new BasicNode(lineStrings[m]), new BasicNode(lineStrings[m + 1]), distance);
             }
         }
 
+        double smallest = Double.NEGATIVE_INFINITY;
+        double largest = Double.POSITIVE_INFINITY;
+
+
+
         System.out.println(gmap2.adj.size());
+
+        smallest = Double.POSITIVE_INFINITY;
+        largest = Double.NEGATIVE_INFINITY;
+        for (BasicNode doubleList: gmap2.adj.keySet()) {
+            double lat = doubleList.getLon();
+
+            if(largest < lat) {
+                largest = lat;
+            }
+            if(smallest > lat) {
+                smallest = lat;
+            }
+
+            //gmap2.addNode(new BasicNode(doubleList));
+        }
+        System.out.println(smallest + " " + largest);
 
         ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm(gmap2);
         HeuristicFunction h = new HeuristicFunction() {
@@ -60,8 +79,15 @@ public class ExampleGraphfromSH {
                 return d.calculateDistance(initial, target);
             }
         };
-        System.out.println(algorithm.algorithm(gmap2, new BasicNode(9.8385465,54.4798868),
-                new BasicNode(9.8386019,54.4798218), h));
+//        System.out.println(algorithm.algorithm(gmap2, new BasicNode(9.8663685,54.4472826),
+//                new BasicNode(9.86994,54.4474017), h));
+
+        //System.out.println(gmap2.nextNode(9.86, 54.44));
+
+        System.out.println(new BasicNode(9,10));
+        System.out.println(algorithm.anyLocationDijkstra(new BasicNode(9.8663680,54.4472826),
+                new BasicNode(9.86994,54.4474017)));
+
 
     }
 }

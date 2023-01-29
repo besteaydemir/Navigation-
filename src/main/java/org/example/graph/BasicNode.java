@@ -19,6 +19,11 @@ public class BasicNode {
         this.lat = list.get(1);
     }
 
+    public BasicNode(double[] array) {
+        this.lon = array[0];
+        this.lat = array[1];
+    }
+
 
 
     @Override
