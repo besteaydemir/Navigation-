@@ -1,15 +1,16 @@
-package org.example;
+package org.example.graph;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.ws.rs.client.Entity;
+import org.example.alternatives.HeuristicFunction;
 import org.example.distance.Distance;
-import org.example.distance.EuclidianDistance;
 import org.example.distance.HaversineDistance;
 import org.example.graph.BasicNode;
 import org.example.graph.GraphMap;
+import org.example.json_class.Class1;
+import org.example.json_class.Class2;
+import org.example.json_class.Class3;
+import org.example.json_class.Class4;
 
 import java.util.*;
 
@@ -115,7 +116,19 @@ public class ShortestPathAlgorithm {
     public ArrayList<BasicNode> anyLocationDijkstra (BasicNode initial, BasicNode terminal) {
         BasicNode closestInit = this.graph.nextNode(initial.getLon(), initial.getLat());
         BasicNode closestTerm = this.graph.nextNode(terminal.getLon(), terminal.getLat());
-        System.out.println("nodes " + closestInit + " and " + closestTerm);
+        HeuristicFunction h = new HeuristicFunction() {
+            @Override
+            public double getCost(BasicNode initial, BasicNode target) {
+                return 0;
+            }
+        };
+        return this.algorithm(this.graph, closestInit, closestTerm, h); //TODO
+    }
+
+    public ArrayList<BasicNode> anyLocationAStar(BasicNode initial, BasicNode terminal) { //TODO add heur here
+        BasicNode closestInit = this.graph.nextNode(initial.getLon(), initial.getLat());
+        BasicNode closestTerm = this.graph.nextNode(terminal.getLon(), terminal.getLat());
+
         HeuristicFunction h = new HeuristicFunction() {
             @Override
             public double getCost(BasicNode initial, BasicNode target) {
@@ -123,12 +136,7 @@ public class ShortestPathAlgorithm {
                 return d.calculateDistance(initial, target);
             }
         };
-        return this.algorithm(this.graph, closestInit, closestTerm, h); //TODO
-    }
 
-    public ArrayList<BasicNode> anyLocationAStar(BasicNode initial, BasicNode terminal, HeuristicFunction h) {
-        BasicNode closestInit = this.graph.nextNode(initial.getLon(), initial.getLat());
-        BasicNode closestTerm = this.graph.nextNode(terminal.getLon(), terminal.getLat());
         return this.algorithm(this.graph, closestInit, closestTerm, h);
     }
 

@@ -1,19 +1,14 @@
 package org.example.implement;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.Class1;
-import org.example.HeuristicFunction;
-import org.example.ShortestPathAlgorithm;
+import org.example.json_class.Class1;
 import org.example.distance.Distance;
 import org.example.distance.EuclidianDistance;
-import org.example.distance.HaversineDistance;
 import org.example.graph.BasicNode;
 import org.example.graph.GraphMap;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ExampleGraphfromSH {

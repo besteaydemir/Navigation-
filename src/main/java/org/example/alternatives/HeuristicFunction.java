@@ -1,4 +1,4 @@
-package org.example;
+package org.example.alternatives;
 
 import org.example.graph.BasicNode;
 

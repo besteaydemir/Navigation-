@@ -1,15 +1,12 @@
 package org.example.implement;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.Class1;
-import org.example.HeuristicFunction;
-import org.example.ShortestPathAlgorithm;
+import org.example.alternatives.HeuristicFunction;
+import org.example.graph.ShortestPathAlgorithm;
 import org.example.distance.Distance;
 import org.example.distance.EuclidianDistance;
 import org.example.graph.BasicNode;
 import org.example.graph.GraphMap;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 

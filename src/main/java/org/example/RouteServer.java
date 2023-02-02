@@ -2,16 +2,16 @@ package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.distance.Distance;
-import org.example.distance.EuclidianDistance;
 import org.example.distance.HaversineDistance;
 import org.example.graph.BasicNode;
 import org.example.graph.GraphMap;
+import org.example.graph.ShortestPathAlgorithm;
+import org.example.json_class.Class1;
 
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 // Server class
 class RouteServer {

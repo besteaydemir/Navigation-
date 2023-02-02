@@ -1,4 +1,4 @@
-package org.example;
+package org.example.alternatives;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.distance.Distance;

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.json_class;
 
 public class Class2 {
     public String type;

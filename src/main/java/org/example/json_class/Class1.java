@@ -1,11 +1,6 @@
-package org.example;
+package org.example.json_class;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Class1 {
     public String type;
