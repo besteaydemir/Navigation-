@@ -8,7 +8,7 @@ import java.util.*;
 
 public class GraphMap {
     public Map<BasicNode, HashMap<BasicNode, Double>> adj = new HashMap<>(); //TODO: Upcasting, downcasting?
-    //TODO: Distance could be here as well
+    // TODO Burada mı new, private
 
     public void addNode(BasicNode node) {
         // Add if the graph does not have that node
@@ -16,7 +16,6 @@ public class GraphMap {
             adj.put(node, new HashMap<>()); //??
         }
     }
-
 
 
     public void addEdge(BasicNode initial, BasicNode end, Distance distance) {
@@ -35,9 +34,6 @@ public class GraphMap {
 
     }
 
-//    public HashMap<BasicNode, Double> returnEdges(BasicNode node) {
-//        return this.adj.get(node);
-//    }
 
     public double getEdgeWeight(BasicNode node1, BasicNode node2) {
         if (this.adj.get(node1).containsKey(node2)) {
@@ -69,7 +65,7 @@ public class GraphMap {
     }
 
     /**
-     *
+     * Finds the closest node (Haversine distance) to a given lon, lat pair.
      * @param lon
      * @param lat
      * @return
@@ -92,7 +88,21 @@ public class GraphMap {
                 System.out.println("nodetoreutn" + latReturn + " " + lonReturn + "smallest " + smallest);
             }
         }
-
+        System.out.println("Closest to node " + a + " is " + new BasicNode(lonReturn, latReturn));
         return new BasicNode(lonReturn, latReturn);
     }
+
+
+    public int getEdgeCount() {
+        int count = 0;
+        for (BasicNode node: this.adj.keySet()) {
+            count += this.adj.get(node).size();
+        }
+        return count;
+    }
+
+    public Set<BasicNode> getNodeSet() {
+        return this.adj.keySet();
+    }
+
 }

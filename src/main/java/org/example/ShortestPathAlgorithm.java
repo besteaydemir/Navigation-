@@ -26,7 +26,7 @@ public class ShortestPathAlgorithm {
         HashMap<BasicNode, Double> fScore = new HashMap<>();
 
 
-        for (BasicNode nodeKey : graph.adj.keySet()) { //TODO oha
+        for (BasicNode nodeKey : graph.getNodeSet()) {
             fScore.put(nodeKey,  Double.POSITIVE_INFINITY);
         }
         //System.out.println(fScore);
@@ -38,7 +38,7 @@ public class ShortestPathAlgorithm {
         // Initialize the hashmap that holds Node and gScore value pairs
         HashMap<BasicNode, Double> gScore = new HashMap<>();
 
-        for (BasicNode nodeKey : graph.adj.keySet()) { //TODO oha
+        for (BasicNode nodeKey : graph.getNodeSet()) {
             gScore.put(nodeKey,  Double.POSITIVE_INFINITY);
         }
 
@@ -50,11 +50,11 @@ public class ShortestPathAlgorithm {
         // The open (undecided) set of nodes that may need to be expanded again.
         PriorityQueue<BasicNode> openSet = new PriorityQueue<BasicNode>(new Comparator<BasicNode>(){
         public int compare(BasicNode node1, BasicNode node2){
-            if(fScore.get(node1)> fScore.get(node2)){
-                return -1;
+            if(fScore.get(node1)> fScore.get(node2)){ //TODO: burada ne oluyor
+                return 1;
             }
             else{
-                return 1;
+                return -1;
             }
         }
        });
@@ -115,7 +115,7 @@ public class ShortestPathAlgorithm {
     public ArrayList<BasicNode> anyLocationDijkstra (BasicNode initial, BasicNode terminal) {
         BasicNode closestInit = this.graph.nextNode(initial.getLon(), initial.getLat());
         BasicNode closestTerm = this.graph.nextNode(terminal.getLon(), terminal.getLat());
-        System.out.println("nodes" + closestInit + "and" + closestTerm);
+        System.out.println("nodes " + closestInit + " and " + closestTerm);
         HeuristicFunction h = new HeuristicFunction() {
             @Override
             public double getCost(BasicNode initial, BasicNode target) {
@@ -124,8 +124,6 @@ public class ShortestPathAlgorithm {
             }
         };
         return this.algorithm(this.graph, closestInit, closestTerm, h); //TODO
-
-        //return this.algorithm(this.graph, initial, terminal, h);
     }
 
     public ArrayList<BasicNode> anyLocationAStar(BasicNode initial, BasicNode terminal, HeuristicFunction h) {

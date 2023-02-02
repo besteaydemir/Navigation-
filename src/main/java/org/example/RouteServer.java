@@ -3,6 +3,7 @@ package org.example;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.distance.Distance;
 import org.example.distance.EuclidianDistance;
+import org.example.distance.HaversineDistance;
 import org.example.graph.BasicNode;
 import org.example.graph.GraphMap;
 
@@ -23,7 +24,7 @@ class RouteServer {
         Class1 sch = mapper.readValue(new File("src/main/java/org/example/schleswig-holstein.json"), Class1.class);
 
         // The distance function
-        Distance distance = new EuclidianDistance();
+        Distance distance = new HaversineDistance();
 
         // Instantiate the graph
         GraphMap gmap2 = new GraphMap();

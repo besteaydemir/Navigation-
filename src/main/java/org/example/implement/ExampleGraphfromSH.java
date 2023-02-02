@@ -48,17 +48,17 @@ public class ExampleGraphfromSH {
             }
         }
 
+        System.out.println(gmap2.getEdgeCount());
+
         double smallest = Double.NEGATIVE_INFINITY;
         double largest = Double.POSITIVE_INFINITY;
 
-
-
-        System.out.println(gmap2.adj.size());
+        System.out.println(gmap2.getNodeSet().size());
 
         smallest = Double.POSITIVE_INFINITY;
         largest = Double.NEGATIVE_INFINITY;
         for (BasicNode doubleList: gmap2.adj.keySet()) {
-            double lat = doubleList.getLon();
+            double lat = doubleList.getLat();
 
             if(largest < lat) {
                 largest = lat;
@@ -71,22 +71,22 @@ public class ExampleGraphfromSH {
         }
         System.out.println(smallest + " " + largest);
 
-        ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm(gmap2);
-        HeuristicFunction h = new HeuristicFunction() {
-            @Override
-            public double getCost(BasicNode initial, BasicNode target) {
-                Distance d = new EuclidianDistance();
-                return d.calculateDistance(initial, target);
-            }
-        };
-//        System.out.println(algorithm.algorithm(gmap2, new BasicNode(9.8663685,54.4472826),
-//                new BasicNode(9.86994,54.4474017), h));
-
-        //System.out.println(gmap2.nextNode(9.86, 54.44));
-
-        System.out.println(new BasicNode(9,10));
-        System.out.println(algorithm.anyLocationDijkstra(new BasicNode(9.8663680,54.4472826),
-                new BasicNode(9.86994,54.4474017)));
+//        ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm(gmap2);
+//        HeuristicFunction h = new HeuristicFunction() {
+//            @Override
+//            public double getCost(BasicNode initial, BasicNode target) {
+//                Distance d = new EuclidianDistance();
+//                return d.calculateDistance(initial, target);
+//            }
+//        };
+////        System.out.println(algorithm.algorithm(gmap2, new BasicNode(9.8663685,54.4472826),
+////                new BasicNode(9.86994,54.4474017), h));
+//
+//        //System.out.println(gmap2.nextNode(9.86, 54.44));
+//
+//        System.out.println(new BasicNode(9,10));
+//        System.out.println(algorithm.anyLocationDijkstra(new BasicNode(9.8663680,54.4472826),
+//                new BasicNode(9.86994,54.4474017)));
 
 
     }
