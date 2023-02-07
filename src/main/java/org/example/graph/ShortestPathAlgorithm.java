@@ -14,44 +14,63 @@ import org.example.json_class.Class4;
 
 import java.util.*;
 
+/**
+ * ShortestPathAlgorithm class that contains the base algorithm,
+ * and A* and Dijkstra implementations by changing the heuristic
+ * function. In order to use the algorithm, one instance of this class
+ * should be constructed and the graph of interest should be passed.
+ */
 public class ShortestPathAlgorithm {
-    GraphMap graph; //Is this stupid -_-, graph classına yaz o zaman methodları -_-
+    GraphMap graph;
 
     public ShortestPathAlgorithm(GraphMap graph) {
         this.graph = graph;
     }
 
+    /**
+     * Base algorithm from which A* and Dijkstra will be constructed.
+     * @param graph:
+     * @param initial: Initial node.
+     * @param terminal: Terminal node.
+     * @param h: The heuristic function, should be admissible.
+     * @return The list of nodes from initial to terminal node, empty list if there is none.
+     */
     public ArrayList<BasicNode> algorithm(GraphMap graph, BasicNode initial, BasicNode terminal, HeuristicFunction h) {
 
         // Initialize the hashmap that holds Node and fScore value pairs
+        // fScore of a node shows how expensive a path from initial to terminal which
+        // crosses through that node.
         HashMap<BasicNode, Double> fScore = new HashMap<>();
 
 
+        // Set each fScore to infinity
         for (BasicNode nodeKey : graph.getNodeSet()) {
             fScore.put(nodeKey,  Double.POSITIVE_INFINITY);
         }
-        //System.out.println(fScore);
 
+        // Set initial node's fScore to the heuristic functions (non-overestimating) estimate
         fScore.put(initial, h.getCost(initial, terminal));
-        //System.out.println(fScore);
 
 
         // Initialize the hashmap that holds Node and gScore value pairs
+        // gScore of a node shows the cost of a path from initial to that node
         HashMap<BasicNode, Double> gScore = new HashMap<>();
 
+
+        // Set each gScore to infinity
         for (BasicNode nodeKey : graph.getNodeSet()) {
             gScore.put(nodeKey,  Double.POSITIVE_INFINITY);
         }
 
+        // Set the initial node's gScore to 0
         gScore.put(initial, 0.0);
-        //System.out.println(gScore);
-
 
 
         // The open (undecided) set of nodes that may need to be expanded again.
+        // The comparator assigns the highest priority to the lowest value
         PriorityQueue<BasicNode> openSet = new PriorityQueue<BasicNode>(new Comparator<BasicNode>(){
         public int compare(BasicNode node1, BasicNode node2){
-            if(fScore.get(node1)> fScore.get(node2)){ //TODO: burada ne oluyor
+            if(fScore.get(node1)> fScore.get(node2)){
                 return 1;
             }
             else{
@@ -67,34 +86,32 @@ public class ShortestPathAlgorithm {
 
 
         while (!openSet.isEmpty()) {
-            //System.out.println("df");
-            //System.out.println(openSet);
-            BasicNode current = openSet.poll(); //TODO: bu min mi max mi ya
-            //System.out.println(current);
+
+            // Get the node from openSet with the highest priority (lowest fValue)
+            BasicNode current = openSet.poll();
+
+
+            // Stop if the node is reached
             if (current.equals(terminal)) {
-                return reconstructPath(cameFrom, current); //TODO
+                return reconstructPath(cameFrom, current);
             }
 
             openSet.remove(current);
-            //System.out.println("ab");
-            //System.out.println(openSet);
+
 
             for (BasicNode neighborNode : graph.getNodeEdgeSet(current)) {
                 double tentativegScore = gScore.get(current) + graph.getEdgeWeight(current, neighborNode);
-                //System.out.println("g" + tentativegScore);
+
+                // Check if this path to neighbor is better than the prev. one
                 if (tentativegScore < gScore.get(neighborNode)) {
                     cameFrom.put(neighborNode, current);
-                    //System.out.println("camefrom");
-                    //System.out.println(cameFrom);
-                    // TODO if not absent
+                    gScore.put(neighborNode, tentativegScore);
+                    fScore.put(neighborNode, tentativegScore + h.getCost(neighborNode, terminal));
 
-                    gScore.put(neighborNode, tentativegScore); //TODO
-                    fScore.put(neighborNode, tentativegScore + h.getCost(neighborNode, terminal)); //TODO
                     if (!openSet.contains(neighborNode)) {
                         openSet.add(neighborNode);
                     }
-                    //System.out.println("be");
-                    //System.out.println(openSet);
+
                 }
             }
         }
@@ -143,6 +160,7 @@ public class ShortestPathAlgorithm {
     public String pathQuerytoJSON(List <BasicNode> query) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper(); // create once, reuse //TODO unnecesaary
 
+        // Ay bunu arraye çevir bu ne
         ArrayList<ArrayList<Double>> coordinates= new ArrayList<>();
         for (BasicNode node: query) {
             ArrayList<Double> co = new ArrayList<>();
