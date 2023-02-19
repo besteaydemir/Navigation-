@@ -28,7 +28,7 @@ public class ShortestPathAlgorithm {
     }
 
     /**
-     * Base algorithm from which A* and Dijkstra will be constructed.
+     * Base algorithm from which A* and Dijkstra will be constructed with Heuristic function selection.
      * @param graph:
      * @param initial: Initial node.
      * @param terminal: Terminal node.
@@ -70,6 +70,7 @@ public class ShortestPathAlgorithm {
         // The comparator assigns the highest priority to the lowest value
         PriorityQueue<BasicNode> openSet = new PriorityQueue<BasicNode>(new Comparator<BasicNode>(){
         public int compare(BasicNode node1, BasicNode node2){
+            // Comparator prioritizes the node with lower fScore
             if(fScore.get(node1)> fScore.get(node2)){
                 return 1;
             }
@@ -87,7 +88,7 @@ public class ShortestPathAlgorithm {
 
         while (!openSet.isEmpty()) {
 
-            // Get the node from openSet with the highest priority (lowest fValue)
+            // Get the node from openSet with the highest priority (lowest fScore)
             BasicNode current = openSet.poll();
 
 
@@ -99,6 +100,7 @@ public class ShortestPathAlgorithm {
             openSet.remove(current);
 
 
+            // For each neighborNode, check for improvements in gScore
             for (BasicNode neighborNode : graph.getNodeEdgeSet(current)) {
                 double tentativegScore = gScore.get(current) + graph.getEdgeWeight(current, neighborNode);
 
@@ -115,6 +117,7 @@ public class ShortestPathAlgorithm {
                 }
             }
         }
+        // Return empty list if no path is found so far
         return new ArrayList<BasicNode>();
 
     }
@@ -133,32 +136,28 @@ public class ShortestPathAlgorithm {
     public ArrayList<BasicNode> anyLocationDijkstra (BasicNode initial, BasicNode terminal) {
         BasicNode closestInit = this.graph.nextNode(initial.getLon(), initial.getLat());
         BasicNode closestTerm = this.graph.nextNode(terminal.getLon(), terminal.getLat());
+
+        // Heuristic function is 0 for Dijkstra
         HeuristicFunction h = new HeuristicFunction() {
             @Override
             public double getCost(BasicNode initial, BasicNode target) {
                 return 0;
             }
         };
-        return this.algorithm(this.graph, closestInit, closestTerm, h); //TODO
+        return this.algorithm(this.graph, closestInit, closestTerm, h);
     }
 
-    public ArrayList<BasicNode> anyLocationAStar(BasicNode initial, BasicNode terminal) { //TODO add heur here
+
+    public ArrayList<BasicNode> anyLocationAStar(BasicNode initial, BasicNode terminal, HeuristicFunction h) {
         BasicNode closestInit = this.graph.nextNode(initial.getLon(), initial.getLat());
         BasicNode closestTerm = this.graph.nextNode(terminal.getLon(), terminal.getLat());
-
-        HeuristicFunction h = new HeuristicFunction() {
-            @Override
-            public double getCost(BasicNode initial, BasicNode target) {
-                Distance d = new HaversineDistance();
-                return d.calculateDistance(initial, target);
-            }
-        };
 
         return this.algorithm(this.graph, closestInit, closestTerm, h);
     }
 
+
     public String pathQuerytoJSON(List <BasicNode> query) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper(); // create once, reuse //TODO unnecesaary
+        ObjectMapper mapper = new ObjectMapper();
 
         // Ay bunu arraye çevir bu ne
         ArrayList<ArrayList<Double>> coordinates= new ArrayList<>();

@@ -1,5 +1,6 @@
 package org.example;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
@@ -7,6 +8,7 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 //import jdk.internal.util.xml.impl.Input;
+import org.example.json_class.CoordinateReaderClass;
 import org.example.json_class.InputPost;
 import org.glassfish.jersey.client.JerseyClient;
 import org.glassfish.jersey.client.JerseyClientBuilder;
@@ -18,7 +20,7 @@ import java.net.Socket;
 /**
  * Root resource (exposed at "myresource" path)
  */
-@Path("sysdev") //Resources are  defined by a path variable --check the difference
+@Path("sysdev")
 
 
 public class PathReturnResource {
@@ -27,20 +29,14 @@ public class PathReturnResource {
 
     private static final String OPENROUTESERVICE_KEY = "5b3ce3597851110001cf62489c868306f2434696a351dca46f78f8f5";
 
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Post
-//
-//    public String postRoute(RouteRequest body) {
-//        return ""
-//    } bu post için mi aaaaa
+
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent
      * to the client as "text/plain" media type.
      *
-     * @return String that will be returned as a text/plain response.
+     * @return JsonObject response.
      */
-
 
     @GET //Change this to post for the other one
     @Path("/orsdirections")
@@ -56,9 +52,6 @@ public class PathReturnResource {
         String startVal = originLon + "," + originLat;
         String endVal = destinationLon + "," + destinationLat;
 
-        System.out.println(endVal);
-
-        //@Query paramlıları burada yap
 
         final JerseyClient client = new JerseyClientBuilder().build();
         final JerseyWebTarget webTarget = client.target(OPENROUTESERVICE_URL);
@@ -69,7 +62,6 @@ public class PathReturnResource {
                 .header("Authorization", OPENROUTESERVICE_KEY) // send the API key for authentication
                 .header("Accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8")
                 .get();
-        System.out.println(response);
 
 
         // check the result
@@ -83,33 +75,44 @@ public class PathReturnResource {
 
             System.out.println("Response: " + jsonObject);
 
-            //eturn null;
             return jsonObject;
         }
     }
 
 
-     //Change this to post for the other one
-
+    /**
+     * Method handling HTTP POST requests. The returned object will be sent
+     * to the client as "text/plain" media type.
+     * @param in Object containing the origin and destination coordinates.
+     * @return JsonObject response.
+     * @throws IOException
+     */
     @POST
     @Path("/orsdirections")
     @Produces(MediaType.APPLICATION_JSON)
 
-    // ??
-    //@Consumes
     public static JsonObject postIt(InputPost in) throws IOException {
         // use the jersey client api to make HTTP requests
 
-        InputPost in2 = in;
+        // An alternative to reading the jsonRequestObject with Object builders,
+        // instead of Jackson
+//        final JsonObject jsonRequestObject = Json.createObjectBuilder()
+//                .add("coordinates", Json.createArrayBuilder()
+//                        .add(Json.createArrayBuilder().add(in2.originLon).add(in2.originLat).build())
+//                        .add(Json.createArrayBuilder().add(in2.destinationLon).add(in2.destinationLat).build())
+//                        .build()
+//                ).build();
 
-        final JsonObject request1 = Json.createObjectBuilder()
-                .add("coordinates", Json.createArrayBuilder()
-                        .add(Json.createArrayBuilder().add(in2.originLon).add(in2.originLat).build())
-                        .add(Json.createArrayBuilder().add(in2.destinationLon).add(in2.destinationLat).build())
-                        .build()
-                ).build();
 
-        System.out.println(request1);
+        // Read coordinates as Json String
+        CoordinateReaderClass coord = new CoordinateReaderClass(in);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String requestString = mapper.writeValueAsString(coord);
+
+        // Convert to JsonObject
+        final JsonObject jsonRequestObject = Json.createReader(new StringReader(requestString)).readObject();
+        System.out.println(jsonRequestObject);
 
 
         final JerseyClient client1 = new JerseyClientBuilder().build();
@@ -122,7 +125,7 @@ public class PathReturnResource {
                 .header("Accept", "application/geo+json")
                 .header("Content-Type", "application/json, charset=utf-8")
                 .header("Authorization", OPENROUTESERVICE_KEY) // send the API key for authentication
-                .post(Entity.json(request1));
+                .post(Entity.json(jsonRequestObject));
         System.out.println(response);
 
 
@@ -135,15 +138,22 @@ public class PathReturnResource {
             final String responseString = response.readEntity(String.class);
             final JsonObject jsonObject = Json.createReader(new StringReader(responseString)).readObject();
 
-            //System.out.println("Response: " + jsonObject);
 
-            //eturn null;
-            System.out.println("resource" + jsonObject);
             return jsonObject;
         }
     }
 
 
+    /**
+     * Method handling Dijksta request. The server client implementation is mostly taken
+     * from https://www.geeksforgeeks.org/multithreaded-servers-in-java/
+     * @param originLat
+     * @param originLon
+     * @param destinationLat
+     * @param destinationLon
+     * @return The query path as String.
+     * @throws IOException
+     */
     @Path("dijkstra")
     @Produces(MediaType.APPLICATION_JSON)
     @GET

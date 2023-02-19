@@ -13,26 +13,32 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-// Server class
+
+/**
+ * TCP server class that handles the client requests made from the UI,
+ * through Dijkstra and AStar resources.
+ * Credits: https://www.geeksforgeeks.org/multithreaded-servers-in-java/
+ */
 class RouteServer {
 
     public static void main(String[] args) throws IOException
     {
         ServerSocket server = null;
 
-        ObjectMapper mapper = new ObjectMapper(); // create once, reuse
+        // Read the json file and instantiate a graph object
+        ObjectMapper mapper = new ObjectMapper();
         Class1 sch = mapper.readValue(new File("src/main/java/org/example/schleswig-holstein.json"), Class1.class);
 
         // The distance function
         Distance distance = new HaversineDistance();
 
         // Instantiate the graph
-        GraphMap gmap2 = new GraphMap();
+        GraphMap gmap = new GraphMap();
 
         // Get the list of coordinates (Nodes of the graph)
         double[][] coordinateList = sch.features.get(0).geometry.coordinates;
         for (double[] doubleList: coordinateList) {
-            gmap2.addNode(new BasicNode(doubleList));
+            gmap.addNode(new BasicNode(doubleList));
         }
 
 
@@ -42,13 +48,11 @@ class RouteServer {
 
             for (int m = 0; m < lineStrings.length - 1; m++) {
                 // Get the pair
-                gmap2.addEdge(new BasicNode(lineStrings[m]), new BasicNode(lineStrings[m + 1]), distance);
+                gmap.addEdge(new BasicNode(lineStrings[m]), new BasicNode(lineStrings[m + 1]), distance);
             }
         }
 
-        ShortestPathAlgorithm alg = new ShortestPathAlgorithm(gmap2);
-
-
+        ShortestPathAlgorithm alg = new ShortestPathAlgorithm(gmap);
 
         try {
 
@@ -72,7 +76,7 @@ class RouteServer {
 
                 // create a new thread object
                 ClientHandler clientSock
-                        = new ClientHandler(client, gmap2, alg); //Is this stupid
+                        = new ClientHandler(client, gmap, alg);
 
                 // This thread will handle the client
                 // separately
