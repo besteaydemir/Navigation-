@@ -77,7 +77,7 @@ class RouteServer {
                         + client.getInetAddress()
                         .getHostAddress());
 
-                // create a new thread object
+                // create a new ClientHandler object that implements Runnable
                 ClientHandler clientSock
                         = new ClientHandler(client, gmap, alg);
 
@@ -143,7 +143,7 @@ class RouteServer {
 
                     ArrayList<BasicNode> path = new ArrayList<>();
                     if (Objects.equals(requestReader.requestType, "dijkstra")) {
-                        System.out.println("here");
+
                         path = alg.anyLocationDijkstra(
                                 new BasicNode(requestReader.coordinates[0][0],
                                         requestReader.coordinates[0][1]),
@@ -152,7 +152,7 @@ class RouteServer {
 
                     }
                     else if (Objects.equals(requestReader.requestType, "astar")) {
-                        System.out.println("hereastar");
+
                         HeuristicFunction h = new HeuristicFunction() {
                             @Override
                             public double getCost(BasicNode initial, BasicNode target) {
@@ -160,19 +160,13 @@ class RouteServer {
                                 return h.calculateDistance(initial, target);
                             }
                         };
-//                    ArrayList<BasicNode> path = alg.anyLocationAStar(new BasicNode(numbers[0], numbers[1]),
-//                            new BasicNode(numbers[2], numbers[3]), h);
+
 
                         path = alg.anyLocationAStar(new BasicNode(requestReader.coordinates[0][0],
                                         requestReader.coordinates[0][1]),
                                 new BasicNode(requestReader.coordinates[1][0], requestReader.coordinates[1][1]), h);
 
                     }
-
-                    //double[] numbers = Arrays.stream(line.split(" ")).mapToDouble(Double::parseDouble).toArray();
-
-                    //Get the graph object and path finding alg.
-                    //Get the output as list of nodes
 
 
                     //Convert out to geojson

@@ -39,7 +39,7 @@ public class PathReturnResource {
      * @return JsonObject response.
      */
 
-    @GET //Change this to post for the other one
+    @GET
     @Path("/orsdirections")
     @Produces(MediaType.APPLICATION_JSON)
 
@@ -74,7 +74,7 @@ public class PathReturnResource {
             final String responseString = response.readEntity(String.class);
             final JsonObject jsonObject = Json.createReader(new StringReader(responseString)).readObject();
 
-            System.out.println("Response: " + jsonObject);
+
 
             return jsonObject;
         }
@@ -103,16 +103,7 @@ public class PathReturnResource {
 
         // Convert to JsonObject
         final JsonObject jsonRequestObject = Json.createReader(new StringReader(requestString)).readObject();
-        System.out.println(jsonRequestObject);
 
-        // An alternative to reading the jsonRequestObject with Object builders,
-        // instead of Jackson
-//        final JsonObject jsonRequestObject = Json.createObjectBuilder()
-//                .add("coordinates", Json.createArrayBuilder()
-//                        .add(Json.createArrayBuilder().add(in2.originLon).add(in2.originLat).build())
-//                        .add(Json.createArrayBuilder().add(in2.destinationLon).add(in2.destinationLat).build())
-//                        .build()
-//                ).build();
 
 
         final JerseyClient client1 = new JerseyClientBuilder().build();
@@ -126,7 +117,7 @@ public class PathReturnResource {
                 .header("Content-Type", "application/json, charset=utf-8")
                 .header("Authorization", OPENROUTESERVICE_KEY) // send the API key for authentication
                 .post(Entity.json(jsonRequestObject));
-        System.out.println(response);
+
 
 
         // check the result
@@ -173,13 +164,7 @@ public class PathReturnResource {
                     = new BufferedReader(new InputStreamReader(
                     socket.getInputStream()));
 
-            // object of scanner class
-            //Scanner sc = new Scanner(System.in);
-            String line = null;
 
-
-            // reading from user
-            line = originLon + " " +  originLat + " " + destinationLon + " " + destinationLat; //TODO coordinates
             CoordinateRequestReader requestReader = new CoordinateRequestReader(Double.parseDouble(originLon),
                     Double.parseDouble(originLat),
                     Double.parseDouble(destinationLon),
@@ -189,9 +174,6 @@ public class PathReturnResource {
             ObjectMapper mapper = new ObjectMapper();
             String requestString = mapper.writeValueAsString(requestReader);
 
-
-            System.out.println("here" + line);
-            System.out.println(requestString);
 
             // sending the user input to server
             out.println(requestString);
@@ -203,7 +185,6 @@ public class PathReturnResource {
                     + readHere);
 
             final JsonObject jsonObject = Json.createReader(new StringReader(readHere)).readObject();
-            System.out.println("resource" + jsonObject);
             return readHere;
 
 
@@ -239,13 +220,7 @@ public class PathReturnResource {
                     = new BufferedReader(new InputStreamReader(
                     socket.getInputStream()));
 
-            // object of scanner class
-            //Scanner sc = new Scanner(System.in);
-            String line = null;
 
-
-            // reading from user
-            line = originLon + " " +  originLat + " " + destinationLon + " " + destinationLat; //TODO coordinates
             CoordinateRequestReader requestReader = new CoordinateRequestReader(Double.parseDouble(originLon),
                     Double.parseDouble(originLat),
                     Double.parseDouble(destinationLon),
@@ -255,9 +230,6 @@ public class PathReturnResource {
             ObjectMapper mapper = new ObjectMapper();
             String requestString = mapper.writeValueAsString(requestReader);
 
-
-            System.out.println("here" + line);
-            System.out.println(requestString);
 
             // sending the user input to server
             out.println(requestString);
@@ -269,7 +241,6 @@ public class PathReturnResource {
                     + readHere);
 
             final JsonObject jsonObject = Json.createReader(new StringReader(readHere)).readObject();
-            System.out.println("resource" + jsonObject);
             return readHere;
 
 

@@ -159,7 +159,7 @@ public class ShortestPathAlgorithm {
     public String pathQuerytoJSON(List <BasicNode> query) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
 
-        // Ay bunu arraye çevir bu ne
+        // Ay bunu arraye çevir bu ne //TODO
         ArrayList<ArrayList<Double>> coordinates= new ArrayList<>();
         for (BasicNode node: query) {
             ArrayList<Double> co = new ArrayList<>();
@@ -176,20 +176,20 @@ public class ShortestPathAlgorithm {
         double[][] intArray = coordinates.stream().map(  u  ->  u.stream().mapToDouble(i->i).toArray()  ).toArray(double[][]::new);
 
 
-        Class4 c4 = new Class4();
-        c4.maxspeed = 0;
-        Class3 c3 = new Class3();
-        c3.type = "LineString";
-        c3.coordinates = intArray;
-        Class2 c2 = new Class2();
-        c2.type = "Feature";
-        c2.geometry = c3;
-        c2.properties = c4;
+        Class4 c4 = new Class4(0);
+        //c4.maxspeed = 0;
+        Class3 c3 = new Class3("LineString", intArray);
+//        c3.type = "LineString";
+//        c3.coordinates = intArray;
+        Class2 c2 = new Class2("Feature", c3, c4);
+//        c2.type = "Feature";
+//        c2.geometry = c3;
+//        c2.properties = c4;
         ArrayList<Class2> features = new ArrayList<Class2>();
         features.add(c2);
-        Class1 c1 = new Class1();
-        c1.type = "FeatureCollection";
-        c1.features = features;
+        Class1 c1 = new Class1("FeatureCollection", features);
+//        c1.type = "FeatureCollection";
+//        c1.features = features;
 
 
         String jsonString = mapper.writeValueAsString(c1);
@@ -197,6 +197,10 @@ public class ShortestPathAlgorithm {
 
         return jsonString;
     }
+
+//    public ArrayList<BasicNode> dijkstra(BasicNode initial, BasicNode terminal) {
+//
+//    }
 
 
 
