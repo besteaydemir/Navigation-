@@ -3,6 +3,9 @@ package org.example.graph;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Node class representing lon, lat pairs.
+ */
 public class BasicNode {
 
     private double lon;
@@ -25,12 +28,10 @@ public class BasicNode {
     }
 
 
-
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof BasicNode) {
             BasicNode otherNode = (BasicNode) obj;  //Casting
-            //System.out.println("Equals is called");
             return this.lon == otherNode.getLon() && this.lat == otherNode.getLat();  //Check one &
 
         }

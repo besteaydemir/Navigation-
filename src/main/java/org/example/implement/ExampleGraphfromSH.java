@@ -1,7 +1,7 @@
 package org.example.implement;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.json_class.Class1;
+import org.example.json_class.TypeFeaturesReader;
 import org.example.distance.Distance;
 import org.example.distance.EuclidianDistance;
 import org.example.graph.BasicNode;
@@ -17,7 +17,7 @@ public class ExampleGraphfromSH {
     public static void main(String[] args) throws IOException {
         // Read the JSON file to an object
         ObjectMapper mapper = new ObjectMapper(); // create once, reuse
-        Class1 sch = mapper.readValue(new File("src/main/java/org/example/schleswig-holstein.json"), Class1.class);
+        TypeFeaturesReader sch = mapper.readValue(new File("src/main/java/org/example/schleswig-holstein.json"), TypeFeaturesReader.class);
 
         // The distance function
         Distance distance = new EuclidianDistance();
@@ -52,7 +52,7 @@ public class ExampleGraphfromSH {
 
         smallest = Double.POSITIVE_INFINITY;
         largest = Double.NEGATIVE_INFINITY;
-        for (BasicNode doubleList: gmap2.adj.keySet()) {
+        for (BasicNode doubleList: gmap2.getNodeSet()) {
             double lat = doubleList.getLat();
 
             if(largest < lat) {
@@ -66,22 +66,7 @@ public class ExampleGraphfromSH {
         }
         System.out.println(smallest + " " + largest);
 
-//        ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm(gmap2);
-//        HeuristicFunction h = new HeuristicFunction() {
-//            @Override
-//            public double getCost(BasicNode initial, BasicNode target) {
-//                Distance d = new EuclidianDistance();
-//                return d.calculateDistance(initial, target);
-//            }
-//        };
-////        System.out.println(algorithm.algorithm(gmap2, new BasicNode(9.8663685,54.4472826),
-////                new BasicNode(9.86994,54.4474017), h));
-//
-//        //System.out.println(gmap2.nextNode(9.86, 54.44));
-//
-//        System.out.println(new BasicNode(9,10));
-//        System.out.println(algorithm.anyLocationDijkstra(new BasicNode(9.8663680,54.4472826),
-//                new BasicNode(9.86994,54.4474017)));
+
 
 
     }

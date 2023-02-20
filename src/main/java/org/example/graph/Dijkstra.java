@@ -1,9 +1,13 @@
 package org.example.graph;
 
-import org.example.alternatives.HeuristicFunction;
-
 public class Dijkstra extends AStar{
-    public Dijkstra(GraphMap graph, HeuristicFunction h) {
-        super(graph, h);
+
+    public Dijkstra(GraphMap graph) {
+        super(graph, new HeuristicFunction() {
+            @Override
+            public double getCost(BasicNode initial, BasicNode target) {
+                return 0;
+            }
+        });
     }
 }

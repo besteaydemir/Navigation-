@@ -1,6 +1,6 @@
 package org.example.implement;
 
-import org.example.alternatives.HeuristicFunction;
+import org.example.graph.HeuristicFunction;
 import org.example.graph.ShortestPathAlgorithm;
 import org.example.distance.Distance;
 import org.example.distance.EuclidianDistance;
@@ -43,23 +43,10 @@ public class SmallGraphTest {
         };
 
         ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm(gmap2);
-        List<BasicNode> path = algorithm.algorithm(gmap2, new BasicNode(21,5), new BasicNode(1,4), h);
+        List<BasicNode> path = algorithm.algorithm(new BasicNode(21,5), new BasicNode(1,4), h);
         System.out.println(gmap2);
         System.out.println(path);
-//        gmap2.addEdge(exNode, new BasicNode(2,5), distance);
-//        System.out.println(gmap2.getNodeEdgeList(new BasicNode(2, 5)).get(0));
-//        System.out.println(gmap2.getNodeEdgeList(gmap2.getNodeEdgeList(new BasicNode(2, 5)).get(0)));
-        //- An node -from an edge- -- no problem
 
-//        gmap2.addNode(new BasicNode(3,5));
-//        gmap2.addEdge(new BasicNode(2,5), new BasicNode(21,5));
-//        gmap2.addEdge(new BasicNode(2,5), new BasicNode(21,5));
-//
-//        System.out.println(gmap2);
-//
-//        System.out.println(gmap2.adj.get(exNode).get(0) == exNode2);
-//        System.out.println(gmap2.adj.keySet().toArray()[2] == exNode2);
-//        System.out.println(gmap2.adj.get(new BasicNode(2,5)));
 
 
 

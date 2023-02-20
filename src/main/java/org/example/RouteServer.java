@@ -1,19 +1,16 @@
 package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.alternatives.HeuristicFunction;
+import org.example.graph.HeuristicFunction;
 import org.example.distance.Distance;
 import org.example.distance.HaversineDistance;
-import org.example.graph.BasicNode;
-import org.example.graph.GraphMap;
-import org.example.graph.ShortestPathAlgorithm;
-import org.example.json_class.Class1;
+import org.example.graph.*;
+import org.example.json_class.TypeFeaturesReader;
 import org.example.json_class.CoordinateRequestReader;
 
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 
@@ -30,7 +27,7 @@ class RouteServer {
 
         // Read the json file and instantiate a graph object
         ObjectMapper mapper = new ObjectMapper();
-        Class1 sch = mapper.readValue(new File("src/main/java/org/example/schleswig-holstein.json"), Class1.class);
+        TypeFeaturesReader sch = mapper.readValue(new File("src/main/java/org/example/schleswig-holstein.json"), TypeFeaturesReader.class);
 
         // The distance function
         Distance distance = new HaversineDistance();
@@ -143,6 +140,12 @@ class RouteServer {
 
                     ArrayList<BasicNode> path = new ArrayList<>();
                     if (Objects.equals(requestReader.requestType, "dijkstra")) {
+//                        Dijkstra dijkstra = new Dijkstra(graph);
+//                        path = dijkstra.algorithm(
+//                                new BasicNode(requestReader.coordinates[0][0],
+//                                        requestReader.coordinates[0][1]),
+//                                new BasicNode(requestReader.coordinates[1][0],
+//                                        requestReader.coordinates[1][1]));
 
                         path = alg.anyLocationDijkstra(
                                 new BasicNode(requestReader.coordinates[0][0],
@@ -153,6 +156,7 @@ class RouteServer {
                     }
                     else if (Objects.equals(requestReader.requestType, "astar")) {
 
+
                         HeuristicFunction h = new HeuristicFunction() {
                             @Override
                             public double getCost(BasicNode initial, BasicNode target) {
@@ -160,6 +164,13 @@ class RouteServer {
                                 return h.calculateDistance(initial, target);
                             }
                         };
+
+//                        AStar astar = new AStar(graph, h);
+//                        path = astar.algorithm(
+//                                new BasicNode(requestReader.coordinates[0][0],
+//                                        requestReader.coordinates[0][1]),
+//                                new BasicNode(requestReader.coordinates[1][0],
+//                                        requestReader.coordinates[1][1]));
 
 
                         path = alg.anyLocationAStar(new BasicNode(requestReader.coordinates[0][0],

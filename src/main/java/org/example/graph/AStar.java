@@ -1,7 +1,5 @@
 package org.example.graph;
 
-import org.example.alternatives.HeuristicFunction;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;

@@ -2,15 +2,10 @@ package org.example.graph;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.alternatives.HeuristicFunction;
-import org.example.distance.Distance;
-import org.example.distance.HaversineDistance;
-import org.example.graph.BasicNode;
-import org.example.graph.GraphMap;
-import org.example.json_class.Class1;
-import org.example.json_class.Class2;
-import org.example.json_class.Class3;
-import org.example.json_class.Class4;
+import org.example.json_class.TypeFeaturesReader;
+import org.example.json_class.TypePropertiesSubReader;
+import org.example.json_class.TypeCoordinatesSubSubReader;
+import org.example.json_class.TypeSubSubSubReader;
 
 import java.util.*;
 
@@ -29,13 +24,13 @@ public class ShortestPathAlgorithm {
 
     /**
      * Base algorithm from which A* and Dijkstra will be constructed with Heuristic function selection.
-     * @param graph:
+     *
      * @param initial: Initial node.
      * @param terminal: Terminal node.
      * @param h: The heuristic function, should be admissible.
      * @return The list of nodes from initial to terminal node, empty list if there is none.
      */
-    public ArrayList<BasicNode> algorithm(GraphMap graph, BasicNode initial, BasicNode terminal, HeuristicFunction h) {
+    public ArrayList<BasicNode> algorithm(BasicNode initial, BasicNode terminal, HeuristicFunction h) {
 
         // Initialize the hashmap that holds Node and fScore value pairs
         // fScore of a node shows how expensive a path from initial to terminal which
@@ -44,7 +39,7 @@ public class ShortestPathAlgorithm {
 
 
         // Set each fScore to infinity
-        for (BasicNode nodeKey : graph.getNodeSet()) {
+        for (BasicNode nodeKey : this.graph.getNodeSet()) {
             fScore.put(nodeKey,  Double.POSITIVE_INFINITY);
         }
 
@@ -58,7 +53,7 @@ public class ShortestPathAlgorithm {
 
 
         // Set each gScore to infinity
-        for (BasicNode nodeKey : graph.getNodeSet()) {
+        for (BasicNode nodeKey : this.graph.getNodeSet()) {
             gScore.put(nodeKey,  Double.POSITIVE_INFINITY);
         }
 
@@ -101,8 +96,8 @@ public class ShortestPathAlgorithm {
 
 
             // For each neighborNode, check for improvements in gScore
-            for (BasicNode neighborNode : graph.getNodeEdgeSet(current)) {
-                double tentativegScore = gScore.get(current) + graph.getEdgeWeight(current, neighborNode);
+            for (BasicNode neighborNode : this.graph.getNodeEdgeSet(current)) {
+                double tentativegScore = gScore.get(current) + this.graph.getEdgeWeight(current, neighborNode);
 
                 // Check if this path to neighbor is better than the prev. one
                 if (tentativegScore < gScore.get(neighborNode)) {
@@ -144,7 +139,7 @@ public class ShortestPathAlgorithm {
                 return 0;
             }
         };
-        return this.algorithm(this.graph, closestInit, closestTerm, h);
+        return this.algorithm(closestInit, closestTerm, h);
     }
 
 
@@ -152,14 +147,14 @@ public class ShortestPathAlgorithm {
         BasicNode closestInit = this.graph.nextNode(initial.getLon(), initial.getLat());
         BasicNode closestTerm = this.graph.nextNode(terminal.getLon(), terminal.getLat());
 
-        return this.algorithm(this.graph, closestInit, closestTerm, h);
+        return this.algorithm(closestInit, closestTerm, h);
     }
 
 
     public String pathQuerytoJSON(List <BasicNode> query) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
 
-        // Ay bunu arraye çevir bu ne //TODO
+
         ArrayList<ArrayList<Double>> coordinates= new ArrayList<>();
         for (BasicNode node: query) {
             ArrayList<Double> co = new ArrayList<>();
@@ -167,40 +162,23 @@ public class ShortestPathAlgorithm {
             co.add(node.getLat());
             coordinates.add(co);
         }
-//        ArrayList<Double> co = new ArrayList<>();
-//        co.add(10.0);
-//        co.add(54.0);
-//        coordinates.add(co);
 
-        double[][] array = new double[coordinates.size()][];
         double[][] intArray = coordinates.stream().map(  u  ->  u.stream().mapToDouble(i->i).toArray()  ).toArray(double[][]::new);
 
 
-        Class4 c4 = new Class4(0);
-        //c4.maxspeed = 0;
-        Class3 c3 = new Class3("LineString", intArray);
-//        c3.type = "LineString";
-//        c3.coordinates = intArray;
-        Class2 c2 = new Class2("Feature", c3, c4);
-//        c2.type = "Feature";
-//        c2.geometry = c3;
-//        c2.properties = c4;
-        ArrayList<Class2> features = new ArrayList<Class2>();
+        TypeSubSubSubReader c4 = new TypeSubSubSubReader(0);
+        TypeCoordinatesSubSubReader c3 = new TypeCoordinatesSubSubReader("LineString", intArray);
+        TypePropertiesSubReader c2 = new TypePropertiesSubReader("Feature", c3, c4);
+        ArrayList<TypePropertiesSubReader> features = new ArrayList<TypePropertiesSubReader>();
         features.add(c2);
-        Class1 c1 = new Class1("FeatureCollection", features);
-//        c1.type = "FeatureCollection";
-//        c1.features = features;
-
+        TypeFeaturesReader c1 = new TypeFeaturesReader("FeatureCollection", features);
 
         String jsonString = mapper.writeValueAsString(c1);
-        System.out.println(jsonString);
 
         return jsonString;
     }
 
-//    public ArrayList<BasicNode> dijkstra(BasicNode initial, BasicNode terminal) {
-//
-//    }
+
 
 
 

@@ -7,8 +7,7 @@ import org.example.graph.BasicNode;
 import java.util.*;
 
 public class GraphMap {
-    public Map<BasicNode, HashMap<BasicNode, Double>> adj = new HashMap<>(); //TODO: Upcasting, downcasting?
-    // TODO Burada mı new, private
+    private HashMap<BasicNode, HashMap<BasicNode, Double>> adj = new HashMap<>();
 
     public void addNode(BasicNode node) {
         // Add if the graph does not have that node
@@ -24,13 +23,13 @@ public class GraphMap {
             this.addNode(initial);
         }
 
-        if (!adj.containsKey(end)) { //TODO: repetition
+        if (!adj.containsKey(end)) {
             this.addNode(end);
         }
 
         double weight = distance.calculateDistance(initial, end);
 
-        adj.get(initial).put(end, weight); //TODO: check if exists
+        adj.get(initial).put(end, weight);
 
     }
 
@@ -56,10 +55,10 @@ public class GraphMap {
         return allNodes;
     }
 
-    public Set<BasicNode> getNodeEdgeSet(BasicNode node) { //TODO
+    public Set<BasicNode> getNodeEdgeSet(BasicNode node) {
         return adj.get(node).keySet();
     }
-    public List<BasicNode> getNodeEdgeList(BasicNode node) { //TODO
+    public List<BasicNode> getNodeEdgeList(BasicNode node) {
         List<BasicNode> nodeList = new ArrayList<>(adj.get(node).keySet());
         return nodeList;
     }
@@ -85,10 +84,10 @@ public class GraphMap {
                 smallest = diff;
                 latReturn = nodeKey.getLat();
                 lonReturn = nodeKey.getLon();
-                System.out.println("nodetoreutn" + latReturn + " " + lonReturn + "smallest " + smallest);
+
             }
         }
-        System.out.println("Closest to node " + a + " is " + new BasicNode(lonReturn, latReturn));
+
         return new BasicNode(lonReturn, latReturn);
     }
 
