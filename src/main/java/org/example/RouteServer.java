@@ -1,17 +1,20 @@
 package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.alternatives.HeuristicFunction;
 import org.example.distance.Distance;
 import org.example.distance.HaversineDistance;
 import org.example.graph.BasicNode;
 import org.example.graph.GraphMap;
 import org.example.graph.ShortestPathAlgorithm;
 import org.example.json_class.Class1;
+import org.example.json_class.CoordinateRequestReader;
 
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 
 /**
@@ -130,27 +133,46 @@ class RouteServer {
 
                 String line;
                 while ((line = in.readLine()) != null) {
-                    // writing the received message from
-                    // client
+                    // Coordinates are received
                     System.out.printf(
-                            " Sent from the client: %s\n",
-                            line); //TODO: Coordinates are received
+                            " Sent from the client: %s\n", line);
 
                     // Get the coordinates
+                    ObjectMapper mapper = new ObjectMapper();
+                    CoordinateRequestReader requestReader = mapper.readValue(line, CoordinateRequestReader.class);
 
-                    double[] numbers = Arrays.stream(line.split(" ")).mapToDouble(Double::parseDouble).toArray();
+                    ArrayList<BasicNode> path = new ArrayList<>();
+                    if (Objects.equals(requestReader.requestType, "dijkstra")) {
+                        System.out.println("here");
+                        path = alg.anyLocationDijkstra(
+                                new BasicNode(requestReader.coordinates[0][0],
+                                        requestReader.coordinates[0][1]),
+                                new BasicNode(requestReader.coordinates[1][0],
+                                        requestReader.coordinates[1][1]));
+
+                    }
+                    else if (Objects.equals(requestReader.requestType, "astar")) {
+                        System.out.println("hereastar");
+                        HeuristicFunction h = new HeuristicFunction() {
+                            @Override
+                            public double getCost(BasicNode initial, BasicNode target) {
+                                HaversineDistance h = new HaversineDistance();
+                                return h.calculateDistance(initial, target);
+                            }
+                        };
+//                    ArrayList<BasicNode> path = alg.anyLocationAStar(new BasicNode(numbers[0], numbers[1]),
+//                            new BasicNode(numbers[2], numbers[3]), h);
+
+                        path = alg.anyLocationAStar(new BasicNode(requestReader.coordinates[0][0],
+                                        requestReader.coordinates[0][1]),
+                                new BasicNode(requestReader.coordinates[1][0], requestReader.coordinates[1][1]), h);
+
+                    }
+
+                    //double[] numbers = Arrays.stream(line.split(" ")).mapToDouble(Double::parseDouble).toArray();
 
                     //Get the graph object and path finding alg.
                     //Get the output as list of nodes
-                    ArrayList<BasicNode> path = alg.anyLocationDijkstra(new BasicNode(numbers[0], numbers[1]),
-                            new BasicNode(numbers[2], numbers[3]));
-
-//                    ArrayList<BasicNode> path = alg.anyLocationDijkstra(new BasicNode(9.8663685,54.4472826),
-//                            new BasicNode(9.86994,54.4474017));
-
-
-                    System.out.println("path here" + path);
-
 
 
                     //Convert out to geojson

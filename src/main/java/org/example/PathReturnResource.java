@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 //import jdk.internal.util.xml.impl.Input;
 import org.example.json_class.CoordinateReaderClass;
+import org.example.json_class.CoordinateRequestReader;
 import org.example.json_class.InputPost;
 import org.glassfish.jersey.client.JerseyClient;
 import org.glassfish.jersey.client.JerseyClientBuilder;
@@ -94,16 +95,6 @@ public class PathReturnResource {
     public static JsonObject postIt(InputPost in) throws IOException {
         // use the jersey client api to make HTTP requests
 
-        // An alternative to reading the jsonRequestObject with Object builders,
-        // instead of Jackson
-//        final JsonObject jsonRequestObject = Json.createObjectBuilder()
-//                .add("coordinates", Json.createArrayBuilder()
-//                        .add(Json.createArrayBuilder().add(in2.originLon).add(in2.originLat).build())
-//                        .add(Json.createArrayBuilder().add(in2.destinationLon).add(in2.destinationLat).build())
-//                        .build()
-//                ).build();
-
-
         // Read coordinates as Json String
         CoordinateReaderClass coord = new CoordinateReaderClass(in);
 
@@ -113,6 +104,15 @@ public class PathReturnResource {
         // Convert to JsonObject
         final JsonObject jsonRequestObject = Json.createReader(new StringReader(requestString)).readObject();
         System.out.println(jsonRequestObject);
+
+        // An alternative to reading the jsonRequestObject with Object builders,
+        // instead of Jackson
+//        final JsonObject jsonRequestObject = Json.createObjectBuilder()
+//                .add("coordinates", Json.createArrayBuilder()
+//                        .add(Json.createArrayBuilder().add(in2.originLon).add(in2.originLat).build())
+//                        .add(Json.createArrayBuilder().add(in2.destinationLon).add(in2.destinationLat).build())
+//                        .build()
+//                ).build();
 
 
         final JerseyClient client1 = new JerseyClientBuilder().build();
@@ -178,28 +178,101 @@ public class PathReturnResource {
             String line = null;
 
 
-
             // reading from user
             line = originLon + " " +  originLat + " " + destinationLon + " " + destinationLat; //TODO coordinates
-            System.out.println(line);
+            CoordinateRequestReader requestReader = new CoordinateRequestReader(Double.parseDouble(originLon),
+                    Double.parseDouble(originLat),
+                    Double.parseDouble(destinationLon),
+                    Double.parseDouble(destinationLat),
+                    "dijkstra");
+
+            ObjectMapper mapper = new ObjectMapper();
+            String requestString = mapper.writeValueAsString(requestReader);
+
+
+            System.out.println("here" + line);
+            System.out.println(requestString);
 
             // sending the user input to server
-            out.println(line);
+            out.println(requestString);
             out.flush();
 
             // displaying server reply
             String readHere =   in.readLine();
             System.out.println("Server replied "
-                    + readHere); //TODO:Convert this to jsonObject
+                    + readHere);
 
             final JsonObject jsonObject = Json.createReader(new StringReader(readHere)).readObject();
             System.out.println("resource" + jsonObject);
             return readHere;
 
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        // closing the scanner object
-        //sc.close();
+
+        return null;
+
+
+
+    }
+
+
+
+    @Path("astar")
+    @Produces(MediaType.APPLICATION_JSON)
+    @GET
+    public static String astar(@QueryParam("originLat") String originLat,
+                                  @QueryParam("originLon") String originLon,
+                                  @QueryParam("destinationLat") String destinationLat,
+                                  @QueryParam("destinationLon") String destinationLon) throws IOException {
+
+        try (Socket socket = new Socket("localhost", 1234)) {
+
+            // writing to server
+            PrintWriter out = new PrintWriter(
+                    socket.getOutputStream(), true);
+
+            // reading from server
+            BufferedReader in
+                    = new BufferedReader(new InputStreamReader(
+                    socket.getInputStream()));
+
+            // object of scanner class
+            //Scanner sc = new Scanner(System.in);
+            String line = null;
+
+
+            // reading from user
+            line = originLon + " " +  originLat + " " + destinationLon + " " + destinationLat; //TODO coordinates
+            CoordinateRequestReader requestReader = new CoordinateRequestReader(Double.parseDouble(originLon),
+                    Double.parseDouble(originLat),
+                    Double.parseDouble(destinationLon),
+                    Double.parseDouble(destinationLat),
+                    "astar");
+
+            ObjectMapper mapper = new ObjectMapper();
+            String requestString = mapper.writeValueAsString(requestReader);
+
+
+            System.out.println("here" + line);
+            System.out.println(requestString);
+
+            // sending the user input to server
+            out.println(requestString);
+            out.flush();
+
+            // displaying server reply
+            String readHere =   in.readLine();
+            System.out.println("Server replied "
+                    + readHere);
+
+            final JsonObject jsonObject = Json.createReader(new StringReader(readHere)).readObject();
+            System.out.println("resource" + jsonObject);
+            return readHere;
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }

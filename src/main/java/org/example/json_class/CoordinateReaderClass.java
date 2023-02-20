@@ -9,4 +9,5 @@ public class CoordinateReaderClass {
         coordinates[1][0] = in.destinationLon;
         coordinates[1][1] = in.destinationLat;
     }
+
 }

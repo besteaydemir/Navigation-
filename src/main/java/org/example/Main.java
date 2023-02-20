@@ -41,7 +41,6 @@ public class Main {
                 + "%s%nHit Ctrl-C to stop it...", BASE_URI));
         System.in.read();
 
-        //new PathReturnResource();
         new CORSFilter();
         new PathReturnResource();
 
