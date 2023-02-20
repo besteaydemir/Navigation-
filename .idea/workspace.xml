@@ -4,32 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="41591d45-6f38-4d41-8bee-00d2f5c09475" name="Changes" comment="Documentation to Server and Resources">
+    <list default="true" id="41591d45-6f38-4d41-8bee-00d2f5c09475" name="Changes" comment="Final commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/RouteServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/RouteServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/alternatives/Client.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/alternatives/FriendClass.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/alternatives/Graph.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/alternatives/HeuristicFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/graph/HeuristicFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/alternatives/MyResource.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/alternatives/NetworkClass.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/alternatives/Node.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/alternatives/RequestElevation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/alternatives/RequestShortestPath.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/alternatives/RouteRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/alternatives/Server.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/distance/Distance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/distance/Distance.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/graph/AStar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/graph/AStar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/graph/BasicNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/graph/BasicNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/graph/Dijkstra.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/graph/Dijkstra.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/graph/GraphMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/graph/GraphMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/graph/ShortestPathAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/graph/ShortestPathAlgorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/implement/ExampleGraphfromSH.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/implement/ExampleGraphfromSH.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/implement/SmallGraphTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/implement/SmallGraphTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/json_class/Class1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/json_class/TypeFeaturesReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/json_class/Class2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/json_class/TypePropertiesSubReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/json_class/Class3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/json_class/TypeCoordinatesSubSubReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/json_class/Class4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/json_class/TypeSubSubSubReader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,19 +52,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">
-    <configuration name="ClientTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.ClientTest" />
-      <module name="SysDevProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.example.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.Main" />
       <module name="SysDevProject" />
@@ -143,6 +109,19 @@
       <module name="SysDevProject" />
       <extension name="coverage">
         <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RouteServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.RouteServer" />
+      <module name="SysDevProject" />
+      <extension name="coverage">
+        <pattern>
           <option name="PATTERN" value="org.example.json_class.*" />
           <option name="ENABLED" value="true" />
         </pattern>
@@ -167,10 +146,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.RouteServer (2)" />
+        <item itemvalue="Application.RouteServer" />
         <item itemvalue="Application.RouteServer (1)" />
         <item itemvalue="Application.MultithreadingExample" />
-        <item itemvalue="Application.ClientTest" />
-        <item itemvalue="Application.RouteServer (2)" />
       </list>
     </recent_temporary>
   </component>
@@ -219,7 +198,8 @@
       <workItem from="1675001523444" duration="4497000" />
       <workItem from="1675371645260" duration="6250000" />
       <workItem from="1675693104090" duration="7329000" />
-      <workItem from="1676823960288" duration="27267000" />
+      <workItem from="1676823960288" duration="28216000" />
+      <workItem from="1676909970273" duration="461000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <created>1672148730170</created>
@@ -305,7 +285,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676904796749</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Final commit">
+      <created>1676908196422</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1676908196422</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -348,7 +335,8 @@
     <MESSAGE value="Small correction on Jackson, POJOs to Json" />
     <MESSAGE value="Made the server handle request according to the request type coming from the json" />
     <MESSAGE value="Documentation to Server and Resources" />
-    <option name="LAST_COMMIT_MESSAGE" value="Documentation to Server and Resources" />
+    <MESSAGE value="Final commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Final commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

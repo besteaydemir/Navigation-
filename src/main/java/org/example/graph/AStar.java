@@ -110,4 +110,11 @@ public class AStar {
         }
         return totalPath;
     }
+
+    public ArrayList<BasicNode> anyLocation(BasicNode initial, BasicNode terminal) {
+        BasicNode closestInit = this.graph.nextNode(initial.getLon(), initial.getLat());
+        BasicNode closestTerm = this.graph.nextNode(terminal.getLon(), terminal.getLat());
+
+        return this.algorithm(closestInit, closestTerm);
+    }
 }

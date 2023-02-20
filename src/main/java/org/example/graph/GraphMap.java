@@ -56,10 +56,10 @@ public class GraphMap {
     }
 
     public Set<BasicNode> getNodeEdgeSet(BasicNode node) {
-        return adj.get(node).keySet();
+        return this.adj.get(node).keySet();
     }
     public List<BasicNode> getNodeEdgeList(BasicNode node) {
-        List<BasicNode> nodeList = new ArrayList<>(adj.get(node).keySet());
+        List<BasicNode> nodeList = new ArrayList<>(this.adj.get(node).keySet());
         return nodeList;
     }
 

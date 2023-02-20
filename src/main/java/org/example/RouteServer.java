@@ -141,7 +141,7 @@ class RouteServer {
                     ArrayList<BasicNode> path = new ArrayList<>();
                     if (Objects.equals(requestReader.requestType, "dijkstra")) {
 //                        Dijkstra dijkstra = new Dijkstra(graph);
-//                        path = dijkstra.algorithm(
+//                        path = dijkstra.anyLocation(
 //                                new BasicNode(requestReader.coordinates[0][0],
 //                                        requestReader.coordinates[0][1]),
 //                                new BasicNode(requestReader.coordinates[1][0],
@@ -166,7 +166,7 @@ class RouteServer {
                         };
 
 //                        AStar astar = new AStar(graph, h);
-//                        path = astar.algorithm(
+//                        path = astar.anyLocation(
 //                                new BasicNode(requestReader.coordinates[0][0],
 //                                        requestReader.coordinates[0][1]),
 //                                new BasicNode(requestReader.coordinates[1][0],
